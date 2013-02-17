@@ -1,0 +1,317 @@
+NAME
+    Etherpad::API - Access Etherpad Lite API easily
+
+SYNOPSIS
+      use Etherpad::API;
+      my $ec = Etherpad::API->new({
+        url    => "http://pad.example.com",
+        apikey => "teirnausetsraunieti"
+      });
+
+      $ec->create_pad('new_pad_name');
+
+DESCRIPTION
+    This is a client for the Etherpad Lite HTTP API.
+
+USAGE
+  new
+     Usage     : my $ec = Etherpad::API->new({ url => "http://pad.example.com", apikey => "secretapikey" });
+     Purpose   : Constructor
+     Returns   : An Etherpad::API object
+     Argument  : An mandatory hash reference, containing two keys:
+                    url    : the epl URL (trailing slashes will be removed)
+                    apikey : the epl API key
+
+  apikey
+     Usage     : $ec->apikey();
+     Purpose   : Get the apikey
+     Returns   : The apikey
+
+  url
+     Usage     : $ec->url();
+     Purpose   : Get the epl URL
+     Returns   : The epl URL
+
+  Groups
+    Pads can belong to a group. The padID of grouppads is starting with a
+    groupID like g.asdfasdfasdfasdf$test
+
+   create_group
+     Usage     : $ec->create_group();
+     Purpose   : Creates a new group
+     Returns   : The new group ID
+
+   create_group_if_not_exists_for
+     Usage     : $ec->create_group_if_not_exists_for('myGroupId');
+     Purpose   : This functions helps you to map your application group ids to epl group ids
+     Returns   : The epl group id
+     Argument  : Your application group id
+
+   delete_group
+     Usage     : $ec->delete_group('groupId');
+     Purpose   : Deletes a group
+     Returns   : 1 if it succeeds
+     Argument  : The id of the group you want to delete
+
+   list_pads
+     Usage     : $ec->list_pads('groupId');
+     Purpose   : Returns all pads of this group
+     Returns   : An array or an array reference (depending on the context) which contains the pad ids
+     Argument  : The id of the group from which you want the pads
+
+   create_group_pad
+     Usage     : $ec->create_group_pad('groupID', 'padName' [, 'text'])
+     Purpose   : Creates a new pad in this group
+     Returns   : 1 if it succeeds
+     Argument  : The group id, the pad name, optionally takes the pad's initial text
+
+   list_all_groups
+     Usage     : $ec->list_all_groups()
+     Purpose   : Lists all existing groups
+     Returns   : An array or an array reference (depending on the context) which contains the groups ids
+
+  Author
+    These authors are bound to the attributes the users choose (color and
+    name).
+
+   createAuthor
+     Usage     : $ec->createAuthor(['name'])
+     Purpose   : Creates a new author
+     Returns   : The new author ID
+     Argument  : Optionally takes a string as argument : the new author's name
+
+   create_author_if_not_exists_for
+     Usage     : $ec->create_author_if_not_exists_for(authorMapper [, name])
+     Purpose   : This functions helps you to map your application author ids to epl author ids
+     Returns   : The epl author ID
+     Argument  : Your application author ID (mandatory) and optionally the epl author name
+
+   list_pads_of_author
+     Usage     : $ec->list_pads_of_author('authorID')
+     Purpose   : Returns an array of all pads this author contributed to
+     Returns   : An array or an array reference depending on the context, containing the pads names
+     Argument  : An epl author ID
+
+   get_author_name
+     Usage     : $ec->get_author_name('authorID')
+     Purpose   : Returns the Author Name of the author
+     Returns   : The author name
+     Argument  : The epl author ID
+
+  Session
+    Sessions can be created between a group and an author. This allows an
+    author to access more than one group. The sessionID will be set as a
+    cookie to the client and is valid until a certain date. The session
+    cookie can also contain multiple comma-seperated sessionIDs, allowing a
+    user to edit pads in different groups at the same time. Only users with
+    a valid session for this group, can access group pads. You can create a
+    session after you authenticated the user at your web application, to
+    give them access to the pads. You should save the sessionID of this
+    session and delete it after the user logged out.
+
+   create_session
+     Usage     : $ec->create_session('groupID', 'authorID', 'validUntil')
+     Purpose   : Creates a new session. validUntil is an unix timestamp in seconds
+     Returns   : The epl session ID
+     Argument  : An epl group ID, an epl author ID and an valid unix timestamp (the session validity end date)
+
+   delete_session
+     Usage     : $ec->delete_session('sessionID')
+     Purpose   : Deletes a session
+     Returns   : 1 if it succeeds
+     Argument  : An epl session ID
+
+   get_session_info
+     Usage     : $ec->get_session_info('sessionID')
+     Purpose   : Returns informations about a session
+     Returns   : An hash reference, containing 3 keys : authorID, groupID and validUntil
+     Argument  : An epl session ID
+
+   list_sessions_of_group
+     Usage     : $ec->list_sessions_of_group('groupID')
+     Purpose   : Returns all sessions of a group
+     Returns   : Returns a hash reference, which keys are sessions ID and values are sessions infos (see get_session_info)
+     Argument  : An epl group ID
+
+   list_sessions_of_author
+     Usage     : $ec->list_sessions_of_author('authorID')
+     Purpose   : Returns all sessions of an author
+     Returns   : Returns a hash reference, which keys are sessions ID and values are sessions infos (see get_session_info)
+     Argument  : An epl group ID
+
+  Pad Content
+    Pad content can be updated and retrieved through the API.
+
+   get_text
+     Usage     : $ec->get_text('padID', ['rev'])
+     Purpose   : Returns the text of a pad
+     Returns   : A string, containing the text of the pad
+     Argument  : Takes a pad ID (mandatory) and optionally a revision number
+
+   set_text
+     Usage     : $ec->set_text('padID', 'text')
+     Purpose   : Sets the text of a pad
+     Returns   : 1 if it succeeds
+     Argument  : Takes a pad ID and the text you want to set (both mandatory)
+
+   get_html
+     Usage     : $ec->get_html('padID', ['rev'])
+     Purpose   : Returns the text of a pad formatted as html
+     Returns   : A string, containing the text of the pad formatted as html
+     Argument  : Takes a pad ID (mandatory) and optionally a revision number
+
+  Pad
+    Group pads are normal pads, but with the name schema GROUPID$PADNAME. A
+    security manager controls access of them and its forbidden for normal
+    pads to include a $ in the name.
+
+   create_pad
+     Usage     : $ec->create_pad('padID' [, 'text'])
+     Purpose   : Creates a new (non-group) pad. Note that if you need to create a group Pad, you should call create_group_pad.
+     Returns   : 1 if it succeeds
+     Argument  : Takes a pad ID (mandatory) and optionally a text to fill the pad
+
+   get_revisions_count
+     Usage     : $ec->get_revisions_count('padID')
+     Purpose   : Returns the number of revisions of this pad
+     Returns   : The number of revisions
+     Argument  : A pad ID
+
+   get_users_count
+     Usage     : $ec->get_users_count('padID')
+     Purpose   : Returns the number of user that are currently editing this pad 
+     Returns   : The number of users
+     Argument  : A pad ID
+
+   pad_users
+     Usage     : $ec->pad_users('padID')
+     Purpose   : Returns the list of users that are currently editing this pad
+     Returns   : An array or an array reference, depending of the context, containing hash references with 3 keys : colorId, name and timestamp
+     Argument  : A pad ID
+
+   delete_pad
+     Usage     : $ec->delete_pad('padID')
+     Purpose   : Deletes a pad
+     Returns   : 1 if it succeeds
+     Argument  : A pad ID
+
+   get_read_only_id
+     Usage     : $ec->get_read_only_id('padID')
+     Purpose   : Returns the read only link of a pad
+     Returns   : A string
+     Argument  : A pad ID
+
+   set_public_status
+     Usage     : $ec->set_public_status('padID', 'publicStatus')
+     Purpose   : Sets a boolean for the public status of a pad
+     Returns   : 1 if it succeeds
+     Argument  : A pad ID and the public status you want to set : 1 or 0
+
+   get_public_status
+     Usage     : $ec->get_public_status('padID')
+     Purpose   : Return true of false
+     Returns   : 1 or 0
+     Argument  : A pad ID
+
+   set_password
+     Usage     : $ec->set_password('padID', 'password')
+     Purpose   : Returns ok or a error message
+     Returns   : 1 if it succeeds
+     Argument  : A pad ID and a password
+
+   is_password_protected
+     Usage     : $ec->is_password_protected('padID')
+     Purpose   : Returns true or false
+     Returns   : 1 or 0
+     Argument  : A pad ID
+
+   list_authors_of_pad
+     Usage     : $ec->list_authors_of_pad('padID')
+     Purpose   : Returns an array of authors who contributed to this pad
+     Returns   : An array or an array reference depending on the context, containing the epl authors IDs
+     Argument  : A pad ID
+
+   list_names_of_authors_of_pad
+     Usage     : $ec->list_names_authors_of_pad('padID')
+     Returns   : Returns an array of the names of the authors who contributed to this pad in list context
+                 Returns an array reference in scalar context
+     Argument  : The pad name
+
+   get_last_edited
+     Usage     : $ec->get_last_edited('padID')
+     Purpose   : Returns the timestamp of the last revision of the pad
+     Returns   : A unix timestamp
+     Argument  : A pad ID
+
+   send_clients_message
+     Usage     : $ec->send_clients_message('padID', 'msg')
+     Purpose   : Sends a custom message of type msg to the pad
+     Returns   : 1 if it succeeds
+     Argument  : A pad ID and the message you want to send
+
+   check_token
+     Usage     : $ec->check_token()
+     Purpose   : Returns ok when the current api token is valid
+     Returns   : 1 if the token is valid, 0 otherwise
+
+  Pads
+   list_all_pads
+     Usage     : $ec->list_all_pads()
+     Purpose   : Lists all pads on this epl instance
+     Returns   : An array or an array reference depending on the context, containing the pads names
+
+INSTALL
+
+  perl Makefile.PL
+  make
+  make test
+  make install
+
+If you are on a windows box you should use 'nmake' rather than 'make'.
+
+BUGS and SUPPORT
+    You can find documentation for this module with the perldoc command.
+
+        perldoc Etherpad::API
+
+    Bugs and feature requests will be tracked at RT:
+
+        http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Etherpad-API
+        bug-etherpad-api at rt.cpan.org
+
+    The latest source code can be browsed and fetched at:
+
+        https://dev.fiat-tux.fr/projects/etherpad-api
+        git clone git://git.fiat-tux.fr/Etherpad-API.git
+
+    You can also look for information at:
+
+        RT: CPAN's request tracker
+
+        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Etherpad-API
+        AnnoCPAN: Annotated CPAN documentation
+
+        http://annocpan.org/dist/Etherpad-API
+        CPAN Ratings
+
+        http://cpanratings.perl.org/d/Etherpad-API
+        Search CPAN
+
+        http://search.cpan.org/dist/Etherpad-API
+
+AUTHOR
+        Luc DIDRY
+        CPAN ID: LDIDRY
+        ldidry@cpan.org
+        http://www.fiat-tux.fr/
+
+COPYRIGHT
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+    The full text of the license can be found in the LICENSE file included
+    with this module.
+
+SEE ALSO
+    perl(1).
+
