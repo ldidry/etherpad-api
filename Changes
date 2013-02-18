@@ -1,5 +1,8 @@
 Revision history for Perl module Etherpad::API
 
+0.04 Mon Feb 18 20:24:12 2013
+    - BugFix due to incorrect documentation
+
 0.03 Mon Feb 18 14:00:45 2013
     - BugFix
 
