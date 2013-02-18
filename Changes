@@ -1,5 +1,11 @@
 Revision history for Perl module Etherpad::API
 
+0.03 Mon Feb 18 14:00:45 2013
+    - BugFix
+
+0.02 Mon Feb 18 08:59:36 2013
+    - Fix typo in function name
+
 0.01 Sun Jan 27 11:59:37 2013
     - original version; created by ExtUtils::ModuleMaker 0.51
 
