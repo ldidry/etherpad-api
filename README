@@ -74,8 +74,8 @@ USAGE
     These authors are bound to the attributes the users choose (color and
     name).
 
-   createAuthor
-     Usage     : $ec->createAuthor(['name'])
+   create_author
+     Usage     : $ec->create_author(['name'])
      Purpose   : Creates a new author
      Returns   : The new author ID
      Argument  : Optionally takes a string as argument : the new author's name

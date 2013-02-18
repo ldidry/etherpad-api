@@ -8,7 +8,7 @@ use Carp;
 BEGIN {
     use Exporter ();
     use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-    $VERSION     = '0.01';
+    $VERSION     = '0.02';
     @ISA         = qw(Exporter);
     #Give a hoot don't pollute, do not export more than needed by default
     @EXPORT      = qw();
@@ -358,9 +358,9 @@ These authors are bound to the attributes the users choose (color and name).
 
 #################### subroutine header begin ####################
 
-=head3 createAuthor
+=head3 create_author
 
- Usage     : $ec->createAuthor(['name'])
+ Usage     : $ec->create_author(['name'])
  Purpose   : Creates a new author
  Returns   : The new author ID
  Argument  : Optionally takes a string as argument : the new author's name
@@ -370,7 +370,7 @@ These authors are bound to the attributes the users choose (color and name).
 #################### subroutine header end ####################
 
 
-sub createAuthor {
+sub create_author {
     my $self = shift;
     my $name = shift;
 
