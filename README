@@ -4,8 +4,10 @@ NAME
 SYNOPSIS
       use Etherpad::API;
       my $ec = Etherpad::API->new({
-        url    => "http://pad.example.com",
-        apikey => "teirnausetsraunieti"
+        url      => "http://pad.example.com",
+        apikey   => "teirnausetsraunieti",
+        user     => "apiuser",
+        password => "apipassword"
       });
 
       $ec->create_pad('new_pad_name');
@@ -18,9 +20,11 @@ USAGE
      Usage     : my $ec = Etherpad::API->new({ url => "http://pad.example.com", apikey => "secretapikey" });
      Purpose   : Constructor
      Returns   : An Etherpad::API object
-     Argument  : An mandatory hash reference, containing two keys:
-                    url    : the epl URL (trailing slashes will be removed)
-                    apikey : the epl API key
+     Argument  : An mandatory hash reference, containing at least two keys:
+                    url      : mandatory, the epl URL (trailing slashes will be removed)
+                    apikey   : mandatory, the epl API key
+                    user     : optional, the user for epl authentication
+                    password : optional, the passowrd for epl authentication
 
   apikey
      Usage     : $ec->apikey();

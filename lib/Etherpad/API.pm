@@ -27,8 +27,10 @@ Etherpad::API - Access Etherpad Lite API easily
 
   use Etherpad::API;
   my $ec = Etherpad::API->new({
-    url    => "http://pad.example.com",
-    apikey => "teirnausetsraunieti"
+    url      => "http://pad.example.com",
+    apikey   => "teirnausetsraunieti",
+    user     => "apiuser",
+    password => "apipassword"
   });
 
   $ec->create_pad('new_pad_name');
