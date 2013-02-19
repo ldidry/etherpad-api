@@ -8,7 +8,7 @@ use Carp;
 BEGIN {
     use Exporter ();
     use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-    $VERSION     = '0.05';
+    $VERSION     = '0.06';
     @ISA         = qw(Exporter);
     #Give a hoot don't pollute, do not export more than needed by default
     @EXPORT      = qw();
@@ -515,7 +515,7 @@ sub get_author_name {
         my $hash = decode_json $response->decoded_content;
         if ($hash->{code} == 0) {
             # Change in the API, without documentation
-            my $data = (defined($hash->{data}->{authorName})) ? $hash->{data}->{authorName} : $hash->{data};
+            my $data = (ref($hash->{data}) eq 'HASH') ? $hash->{data}->{authorName} : $hash->{data};
             return $data;
         } else {
             die $hash->{message};
@@ -1508,7 +1508,7 @@ sub list_all_pads {
         my $hash = decode_json $response->decoded_content;
         if ($hash->{code} == 0) {
             # Change in the API, without documentation
-            my $data = (defined($hash->{data}->{padIDs})) ? $hash->{data}->{padIDs} : $hash->{data};
+            my $data = (ref($hash->{data}) eq 'HASH') ? $hash->{data}->{padIDs} : $hash->{data};
             return (wantarray) ? @{$data} : $data;
         } else {
             die $hash->{message};
