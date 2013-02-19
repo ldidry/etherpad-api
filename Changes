@@ -1,5 +1,8 @@
 Revision history for Perl module Etherpad::API
 
+0.05 Tue Feb 19 11:30:00 2013
+    - Add possibility to use epl authentication
+
 0.04 Mon Feb 18 20:24:12 2013
     - BugFix due to incorrect documentation
 

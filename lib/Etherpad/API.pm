@@ -53,9 +53,11 @@ This is a client for the Etherpad Lite HTTP API.
  Usage     : my $ec = Etherpad::API->new({ url => "http://pad.example.com", apikey => "secretapikey" });
  Purpose   : Constructor
  Returns   : An Etherpad::API object
- Argument  : An mandatory hash reference, containing two keys:
-                url    : the epl URL (trailing slashes will be removed)
-                apikey : the epl API key
+ Argument  : An mandatory hash reference, containing at least two keys:
+                url      : mandatory, the epl URL (trailing slashes will be removed)
+                apikey   : mandatory, the epl API key
+                user     : optional, the user for epl authentication
+                password : optional, the passowrd for epl authentication
 
 =cut
 
@@ -66,7 +68,12 @@ sub new {
     return undef unless (defined($parameters->{url}) && defined($parameters->{apikey}));
 
     $parameters->{url} =~ s#/+$## if (defined($parameters->{url}));
+    if (defined($parameters->{user}) && defined($parameters->{password})) {
+        $parameters->{url} =~ s#^(https?://)#$1$parameters->{user}:$parameters->{password}@#;
+    }
+
     $parameters->{ua} = LWP::UserAgent->new;
+
     my $self = bless ($parameters, ref ($class) || $class);
     return $self;
 }
