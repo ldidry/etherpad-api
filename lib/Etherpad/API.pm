@@ -8,7 +8,7 @@ use Carp;
 BEGIN {
     use Exporter ();
     use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-    $VERSION     = '0.06';
+    $VERSION     = '0.07';
     @ISA         = qw(Exporter);
     #Give a hoot don't pollute, do not export more than needed by default
     @EXPORT      = qw();
@@ -871,6 +871,104 @@ sub get_html {
 
 
 #################################################################
+=head2 Chat
+
+=cut
+#################################################################
+
+#################### subroutine header begin ####################
+
+=head3 get_chat_history
+
+ Usage     : $ec->get_chat_history('padID' [, start, end])
+ Purpose   : Returns
+              - a part of the chat history, when start and end are given
+              - the whole chat history, when no extra parameters are given
+ Returns   : An array or an array reference, depending of the context, containing hash references with 4 keys :
+              - text     => text of the message
+              - userId   => epl user id
+              - time     => unix timestamp of the message
+              - userName => epl user name
+ Argument  : Takes a pad ID (mandatory) and optionally the start and the end numbers of the messages you want.
+             The start number can't be higher than or equal to the current chatHead. The first chat message is number 0.
+             If you specify a start but not an end, all messages will be returned.
+
+=cut
+
+#################### subroutine header end ####################
+
+
+sub get_chat_history {
+    my $self   = shift;
+    my $pad_id = shift;
+    my $start  = shift;
+    my $end    = shift;
+
+    croak 'Please provide at least a pad id' unless (defined($pad_id));
+
+    my $api    = '1.2.7';
+    my $method = 'getChatHistory';
+
+    my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
+       $request .= '&padID=' . $pad_id;
+       $request .= '&start=' . $start if (defined($start));
+       $request .= '&end='   . $end   if (defined($end));
+    my $response = $self->{ua}->get($request);
+    if ($response->is_success) {
+        my $hash = decode_json $response->decoded_content;
+        if ($hash->{code} == 0) {
+            return (wantarray) ? @{$hash->{data}->{messages}}: $hash->{data}->{messages};
+        } else {
+            die $hash->{message};
+        }
+    }
+    else {
+        die $response->status_line;
+    }
+}
+
+
+#################### subroutine header begin ####################
+
+=head3 get_chat_head
+
+ Usage     : $ec->get_chat_head('padID')
+ Purpose   : Returns the chatHead (last number of the last chat-message) of the pad
+ Returns   : The last chat-message number. -1 if there is no chat message
+ Argument  : A pad ID
+
+=cut
+
+#################### subroutine header end ####################
+
+
+sub get_chat_head {
+    my $self   = shift;
+    my $pad_id = shift;
+
+    croak 'Please provide a pad id' unless (defined($pad_id));
+
+    my $api    = '1.2.7';
+    my $method = 'getChatHead';
+
+    my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
+       $request .= '&padID=' . $pad_id;
+    my $response = $self->{ua}->get($request);
+    if ($response->is_success) {
+        my $hash = decode_json $response->decoded_content;
+        if ($hash->{code} == 0) {
+            return $hash->{data}->{chatHead};
+        } else {
+            die $hash->{message};
+        }
+    }
+    else {
+        die $response->status_line;
+    }
+}
+
+
+#################################################################
 =head2 Pad
 
 Group pads are normal pads, but with the name schema GROUPID$PADNAME. A security manager controls access of them and its forbidden for normal pads to include a $ in the name.
@@ -965,7 +1063,7 @@ sub get_revisions_count {
 =head3 get_users_count
 
  Usage     : $ec->get_users_count('padID')
- Purpose   : Returns the number of user that are currently editing this pad 
+ Purpose   : Returns the number of user that are currently editing this pad
  Returns   : The number of users
  Argument  : A pad ID
 
@@ -1445,7 +1543,7 @@ sub send_clients_message {
 
 #################### subroutine header begin ####################
 
-=head3 check_token
+=head2 check_token
 
  Usage     : $ec->check_token()
  Purpose   : Returns ok when the current api token is valid

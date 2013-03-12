@@ -164,6 +164,27 @@ USAGE
      Returns   : A string, containing the text of the pad formatted as html
      Argument  : Takes a pad ID (mandatory) and optionally a revision number
 
+  Chat
+   get_chat_history
+     Usage     : $ec->get_chat_history('padID' [, start, end])
+     Purpose   : Returns
+                  - a part of the chat history, when start and end are given
+                  - the whole chat history, when no extra parameters are given
+     Returns   : An array or an array reference, depending of the context, containing hash references with 4 keys :
+                  - text     => text of the message
+                  - userId   => epl user id
+                  - time     => unix timestamp of the message
+                  - userName => epl user name
+     Argument  : Takes a pad ID (mandatory) and optionally the start and the end numbers of the messages you want.
+                 The start number can't be higher than or equal to the current chatHead. The first chat message is number 0.
+                 If you specify a start but not an end, all messages will be returned.
+
+   get_chat_head
+     Usage     : $ec->get_chat_head('padID')
+     Purpose   : Returns the chatHead (last number of the last chat-message) of the pad
+     Returns   : The last chat-message number. -1 if there is no chat message
+     Argument  : A pad ID
+
   Pad
     Group pads are normal pads, but with the name schema GROUPID$PADNAME. A
     security manager controls access of them and its forbidden for normal
@@ -183,7 +204,7 @@ USAGE
 
    get_users_count
      Usage     : $ec->get_users_count('padID')
-     Purpose   : Returns the number of user that are currently editing this pad 
+     Purpose   : Returns the number of user that are currently editing this pad
      Returns   : The number of users
      Argument  : A pad ID
 
@@ -253,7 +274,7 @@ USAGE
      Returns   : 1 if it succeeds
      Argument  : A pad ID and the message you want to send
 
-   check_token
+  check_token
      Usage     : $ec->check_token()
      Purpose   : Returns ok when the current api token is valid
      Returns   : 1 if the token is valid, 0 otherwise
