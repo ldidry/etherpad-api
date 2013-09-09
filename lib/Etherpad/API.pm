@@ -177,7 +177,7 @@ sub create_group_if_not_exists_for {
     my $self        = shift;
     my $my_group_id = shift;
 
-    croak 'Please provide a group id' unless (defined($my_group_id));
+    carp 'Please provide a group id' unless (defined($my_group_id));
 
     my $api    = 1;
     my $method = 'createGroupIfNotExistsFor';
@@ -217,7 +217,7 @@ sub delete_group {
     my $self     = shift;
     my $group_id = shift;
 
-    croak 'Please provide a group id' unless (defined($group_id));
+    carp 'Please provide a group id' unless (defined($group_id));
 
     my $api    = 1;
     my $method = 'deleteGroup';
@@ -257,7 +257,7 @@ sub list_pads {
     my $self     = shift;
     my $group_id = shift;
 
-    croak 'Please provide a group id' unless (defined($group_id));
+    carp 'Please provide a group id' unless (defined($group_id));
 
     my $api    = 1;
     my $method = 'listPads';
@@ -299,7 +299,7 @@ sub create_group_pad {
     my $pad_name = shift;
     my $text     = shift;
 
-    croak 'Please provide at least 2 arguments : the group id and the pad name' unless (defined($pad_name));
+    carp 'Please provide at least 2 arguments : the group id and the pad name' unless (defined($pad_name));
 
     my $api    = 1;
     my $method = 'createGroupPad';
@@ -422,7 +422,7 @@ sub create_author_if_not_exists_for {
     my $author_mapper = shift;
     my $name          = shift;
 
-    croak 'Please provide your application author id' unless (defined($author_mapper));
+    carp 'Please provide your application author id' unless (defined($author_mapper));
 
     my $api    = 1;
     my $method = 'createAuthorIfNotExistsFor';
@@ -463,7 +463,7 @@ sub list_pads_of_author {
     my $self      = shift;
     my $author_id = shift;
 
-    croak 'Please provide an author id' unless (defined($author_id));
+    carp 'Please provide an author id' unless (defined($author_id));
 
     my $api    = 1;
     my $method = 'listPadsOfAuthor';
@@ -503,7 +503,7 @@ sub get_author_name {
     my $self      = shift;
     my $author_id = shift;
 
-    croak 'Please provide an author id' unless (defined($author_id));
+    carp 'Please provide an author id' unless (defined($author_id));
 
     my $api    = 1.1;
     my $method = 'getAuthorName';
@@ -554,8 +554,8 @@ sub create_session {
     my $author_id   = shift;
     my $valid_until = shift;
 
-    croak 'Please provide 3 arguments : the group id, the author id and a valid unix timestamp' unless (defined($valid_until));
-    croak 'Please provide a *valid* unix timestamp as third argument' unless ($valid_until =~ m/\d+/);
+    carp 'Please provide 3 arguments : the group id, the author id and a valid unix timestamp' unless (defined($valid_until));
+    carp 'Please provide a *valid* unix timestamp as third argument' unless ($valid_until =~ m/\d+/);
 
     my $api    = 1;
     my $method = 'createSession';
@@ -595,7 +595,7 @@ sub delete_session {
     my $self       = shift;
     my $session_id = shift;
 
-    croak 'Please provide a session id' unless (defined($session_id));
+    carp 'Please provide a session id' unless (defined($session_id));
 
     my $api    = 1;
     my $method = 'deleteSession';
@@ -635,7 +635,7 @@ sub get_session_info {
     my $self       = shift;
     my $session_id = shift;
 
-    croak 'Please provide a session id' unless (defined($session_id));
+    carp 'Please provide a session id' unless (defined($session_id));
 
     my $api    = 1;
     my $method = 'getSessionInfo';
@@ -675,7 +675,7 @@ sub list_sessions_of_group {
     my $self     = shift;
     my $group_id = shift;
 
-    croak 'Please provide a group id' unless (defined($group_id));
+    carp 'Please provide a group id' unless (defined($group_id));
 
     my $api    = 1;
     my $method = 'listSessionsOfGroup';
@@ -715,7 +715,7 @@ sub list_sessions_of_author {
     my $self      = shift;
     my $author_id = shift;
 
-    croak 'Please provide an author id' unless (defined($author_id));
+    carp 'Please provide an author id' unless (defined($author_id));
 
     my $api    = 1;
     my $method = 'listSessionsOfAuthor';
@@ -764,7 +764,7 @@ sub get_text {
     my $pad_id = shift;
     my $rev    = shift;
 
-    croak 'Please provide at least a pad id' unless (defined($pad_id));
+    carp 'Please provide at least a pad id' unless (defined($pad_id));
 
     my $api    = 1;
     my $method = 'getText';
@@ -806,7 +806,7 @@ sub set_text {
     my $pad_id = shift;
     my $text   = shift;
 
-    croak 'Please provide 2 arguments : a pad id and a text' unless (defined($text));
+    carp 'Please provide 2 arguments : a pad id and a text' unless (defined($text));
 
     my $api    = 1;
     my $method = 'setText';
@@ -847,7 +847,7 @@ sub get_html {
     my $pad_id = shift;
     my $rev    = shift;
 
-    croak 'Please provide at least a pad id' unless (defined($pad_id));
+    carp 'Please provide at least a pad id' unless (defined($pad_id));
 
     my $api    = 1;
     my $method = 'getHTML';
@@ -904,7 +904,7 @@ sub get_chat_history {
     my $start  = shift;
     my $end    = shift;
 
-    croak 'Please provide at least a pad id' unless (defined($pad_id));
+    carp 'Please provide at least a pad id' unless (defined($pad_id));
 
     my $api    = '1.2.7';
     my $method = 'getChatHistory';
@@ -946,7 +946,7 @@ sub get_chat_head {
     my $self   = shift;
     my $pad_id = shift;
 
-    croak 'Please provide a pad id' unless (defined($pad_id));
+    carp 'Please provide a pad id' unless (defined($pad_id));
 
     my $api    = '1.2.7';
     my $method = 'getChatHead';
@@ -995,7 +995,7 @@ sub create_pad {
     my $pad_id = shift;
     my $text   = shift;
 
-    croak 'Please provide at least a pad id' unless (defined($pad_id));
+    carp 'Please provide at least a pad id' unless (defined($pad_id));
 
     my $api    = 1;
     my $method = 'createPad';
@@ -1036,7 +1036,7 @@ sub get_revisions_count {
     my $self   = shift;
     my $pad_id = shift;
 
-    croak 'Please provide a pad id' unless (defined($pad_id));
+    carp 'Please provide a pad id' unless (defined($pad_id));
 
     my $api    = 1;
     my $method = 'getRevisionsCount';
@@ -1076,7 +1076,7 @@ sub get_users_count {
     my $self   = shift;
     my $pad_id = shift;
 
-    croak 'Please provide a pad id' unless (defined($pad_id));
+    carp 'Please provide a pad id' unless (defined($pad_id));
 
     my $api = 1;
     my $method = 'padUsersCount';
@@ -1115,7 +1115,7 @@ sub pad_users {
     my $self   = shift;
     my $pad_id = shift;
 
-    croak 'Please provide a pad id' unless (defined($pad_id));
+    carp 'Please provide a pad id' unless (defined($pad_id));
 
     my $api    = 1.1;
     my $method = 'padUsers';
@@ -1155,7 +1155,7 @@ sub delete_pad {
     my $self   = shift;
     my $pad_id = shift;
 
-    croak 'Please provide a pad id' unless (defined($pad_id));
+    carp 'Please provide a pad id' unless (defined($pad_id));
 
     my $api    = 1;
     my $method = 'deletePad';
@@ -1195,7 +1195,7 @@ sub get_read_only_id {
     my $self   = shift;
     my $pad_id = shift;
 
-    croak 'Please provide a pad id' unless (defined($pad_id));
+    carp 'Please provide a pad id' unless (defined($pad_id));
 
     my $api    = 1;
     my $method = 'getReadOnlyID';
@@ -1236,7 +1236,7 @@ sub set_public_status {
     my $pad_id        = shift;
     my $public_status = shift;
 
-    croak 'Please provide 2 arguments : a pad id and a public status (1 or 0)' unless (defined($public_status));
+    carp 'Please provide 2 arguments : a pad id and a public status (1 or 0)' unless (defined($public_status));
 
     $public_status = ($public_status) ? JSON::XS::true : JSON::XS::false;
 
@@ -1278,7 +1278,7 @@ sub get_public_status {
     my $self   = shift;
     my $pad_id = shift;
 
-    croak 'Please provide a pad id' unless (defined($pad_id));
+    carp 'Please provide a pad id' unless (defined($pad_id));
 
     my $api    = 1;
     my $method = 'getPublicStatus';
@@ -1319,7 +1319,7 @@ sub set_password {
     my $pad_id   = shift;
     my $password = shift;
 
-    croak 'Please provide 2 arguments : a pad id and a password' unless (defined($password));
+    carp 'Please provide 2 arguments : a pad id and a password' unless (defined($password));
 
     my $api    = 1;
     my $method = 'setPassword';
@@ -1359,7 +1359,7 @@ sub is_password_protected {
     my $self   = shift;
     my $pad_id = shift;
 
-    croak 'Please provide a pad id' unless (defined($pad_id));
+    carp 'Please provide a pad id' unless (defined($pad_id));
 
     my $api    = 1;
     my $method = 'isPasswordProtected';
@@ -1399,7 +1399,7 @@ sub list_authors_of_pad {
     my $self   = shift;
     my $pad_id = shift;
 
-    croak 'Please provide a pad id' unless (defined($pad_id));
+    carp 'Please provide a pad id' unless (defined($pad_id));
 
     my $api    = 1;
     my $method = 'listAuthorsOfPad';
@@ -1439,7 +1439,7 @@ sub list_names_of_authors_of_pad {
     my $self   = shift;
     my $pad_id = shift;
 
-    croak 'Please provide a pad id' unless (defined($pad_id));
+    carp 'Please provide a pad id' unless (defined($pad_id));
 
     my @names;
     my $anonymous = 0;
@@ -1478,7 +1478,7 @@ sub get_last_edited {
     my $self   = shift;
     my $pad_id = shift;
 
-    croak 'Please provide at least a pad id' unless (defined($pad_id));
+    carp 'Please provide at least a pad id' unless (defined($pad_id));
 
     my $api    = 1;
     my $method = 'getLastEdited';
@@ -1519,7 +1519,7 @@ sub send_clients_message {
     my $pad_id = shift;
     my $msg    = shift;
 
-    croak "Please provide 2 arguments : the pad id and a message" unless (defined($msg));
+    carp "Please provide 2 arguments : the pad id and a message" unless (defined($msg));
 
     my $api    = 1.1;
     my $method = 'sendAPIsMessage';
