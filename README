@@ -306,8 +306,8 @@ BUGS and SUPPORT
 
     The latest source code can be browsed and fetched at:
 
-        https://dev.fiat-tux.fr/projects/etherpad-api
-        git clone git://git.fiat-tux.fr/Etherpad-API.git
+        https://github.com/ldidry/etherpad-api
+        git clone git://github.com/ldidry/etherpad-api.git
 
     You can also look for information at:
 

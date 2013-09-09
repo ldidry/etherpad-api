@@ -12,6 +12,15 @@ WriteMakefile(
                      'Test::Simple' => 0.44,
                      'LWP::UserAgent' => 0,
                      'JSON::XS' => 0,
-                     'Carp' => 0
                     },
+    META_MERGE => {
+        "meta-spec" => { version => 2 },
+        resources => {
+            repository => {
+                type => 'git',
+                url  => 'git://github.com/ldidry/etherpad-api.git',
+                web  => 'https://github.com/ldidry/etherpad-api',
+            },
+        },
+    },
 );

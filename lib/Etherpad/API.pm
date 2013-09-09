@@ -2,13 +2,13 @@ package Etherpad::API;
 use strict;
 use LWP::UserAgent;
 use JSON::XS;
-use Carp;
+use Carp qw(carp);
 
 
 BEGIN {
     use Exporter ();
     use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-    $VERSION     = '0.07';
+    $VERSION     = '0.08';
     @ISA         = qw(Exporter);
     #Give a hoot don't pollute, do not export more than needed by default
     @EXPORT      = qw();
@@ -150,11 +150,11 @@ sub create_group {
         if ($hash->{code} == 0) {
             return $hash->{data}->{groupID};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -190,11 +190,11 @@ sub create_group_if_not_exists_for {
         if ($hash->{code} == 0) {
             return $hash->{data}->{groupID};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -230,11 +230,11 @@ sub delete_group {
         if ($hash->{code} == 0) {
             return 1;
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -270,11 +270,11 @@ sub list_pads {
         if ($hash->{code} == 0) {
             return (wantarray) ? @{$hash->{data}->{padIDs}}: $hash->{data}->{padIDs};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -313,11 +313,11 @@ sub create_group_pad {
         if ($hash->{code} == 0) {
             return 1;
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -348,11 +348,11 @@ sub list_all_groups {
         if ($hash->{code} == 0) {
             return (wantarray) ? @{$hash->{data}->{groupIDs}}: $hash->{data}->{groupIDs};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -394,11 +394,11 @@ sub create_author {
         if ($hash->{code} == 0) {
             return $hash->{data}->{authorID};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -436,11 +436,11 @@ sub create_author_if_not_exists_for {
         if ($hash->{code} == 0) {
             return $hash->{data}->{authorID};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -476,11 +476,11 @@ sub list_pads_of_author {
         if ($hash->{code} == 0) {
             return (wantarray) ? @{$hash->{data}->{padIDs}}: $hash->{data}->{padIDs};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -518,10 +518,10 @@ sub get_author_name {
             my $data = (ref($hash->{data}) eq 'HASH') ? $hash->{data}->{authorName} : $hash->{data};
             return $data;
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     } else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -568,11 +568,11 @@ sub create_session {
         if ($hash->{code} == 0) {
             return $hash->{data}->{sessionID};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -608,11 +608,11 @@ sub delete_session {
         if ($hash->{code} == 0) {
             return 1;
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -648,11 +648,11 @@ sub get_session_info {
         if ($hash->{code} == 0) {
             return $hash->{data};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -688,11 +688,11 @@ sub list_sessions_of_group {
         if ($hash->{code} == 0) {
             return $hash->{data};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -728,11 +728,11 @@ sub list_sessions_of_author {
         if ($hash->{code} == 0) {
             return $hash->{data};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -778,11 +778,11 @@ sub get_text {
         if ($hash->{code} == 0) {
             return $hash->{data}->{text};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -819,11 +819,11 @@ sub set_text {
         if ($hash->{code} == 0) {
             return 1;
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -861,11 +861,11 @@ sub get_html {
         if ($hash->{code} == 0) {
             return $hash->{data}->{html};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -919,11 +919,11 @@ sub get_chat_history {
         if ($hash->{code} == 0) {
             return (wantarray) ? @{$hash->{data}->{messages}}: $hash->{data}->{messages};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -959,11 +959,11 @@ sub get_chat_head {
         if ($hash->{code} == 0) {
             return $hash->{data}->{chatHead};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -1009,11 +1009,11 @@ sub create_pad {
         if ($hash->{code} == 0) {
             return 1;
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -1049,11 +1049,11 @@ sub get_revisions_count {
         if ($hash->{code} == 0) {
             return $hash->{data}->{revisions};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -1088,11 +1088,11 @@ sub get_users_count {
         if ($hash->{code} == 0) {
             return $hash->{data}->{padUsersCount};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -1128,11 +1128,11 @@ sub pad_users {
         if ($hash->{code} == 0) {
             return (wantarray) ? @{$hash->{data}->{padUsers}} : $hash->{data}->{padUsers};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -1168,11 +1168,11 @@ sub delete_pad {
         if ($hash->{code} == 0) {
             return 1;
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -1208,11 +1208,11 @@ sub get_read_only_id {
         if ($hash->{code} == 0) {
             return $hash->{data}->{readOnlyID};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -1251,11 +1251,11 @@ sub set_public_status {
         if ($hash->{code} == 0) {
             return 1;
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -1291,11 +1291,11 @@ sub get_public_status {
         if ($hash->{code} == 0) {
             return ($hash->{data}->{publicStatus}) ? 1 : 0;
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -1332,11 +1332,11 @@ sub set_password {
         if ($hash->{code} == 0) {
             return 1;
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -1372,11 +1372,11 @@ sub is_password_protected {
         if ($hash->{code} == 0) {
             return ($hash->{data}->{passwordProtection}) ? 1 : 0;
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -1412,11 +1412,11 @@ sub list_authors_of_pad {
         if ($hash->{code} == 0) {
             return (wantarray) ? @{$hash->{data}->{authorIDs}} : $hash->{data}->{authorIDs};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -1491,11 +1491,11 @@ sub get_last_edited {
         if ($hash->{code} == 0) {
             return $hash->{data}->{lastEdited};
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -1532,11 +1532,11 @@ sub send_clients_message {
         if ($hash->{code} == 0) {
             return 1;
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -1571,7 +1571,7 @@ sub check_token {
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -1609,11 +1609,11 @@ sub list_all_pads {
             my $data = (ref($hash->{data}) eq 'HASH') ? $hash->{data}->{padIDs} : $hash->{data};
             return (wantarray) ? @{$data} : $data;
         } else {
-            die $hash->{message};
+            carp $hash->{message};
         }
     }
     else {
-        die $response->status_line;
+        carp $response->status_line;
     }
 }
 
@@ -1632,8 +1632,8 @@ Bugs and feature requests will be tracked at RT:
 
 The latest source code can be browsed and fetched at:
 
-    https://dev.fiat-tux.fr/projects/etherpad-api
-    git clone git://git.fiat-tux.fr/Etherpad-API.git
+    https://github.com/ldidry/etherpad-api
+    git clone git://github.com/ldidry/etherpad-api.git
 
 You can also look for information at:
 
