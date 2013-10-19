@@ -9,7 +9,7 @@ use Carp qw(carp);
 BEGIN {
     use Exporter ();
     use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-    $VERSION     = '0.09';
+    $VERSION     = '0.10';
     @ISA         = qw(Exporter);
     #Give a hoot don't pollute, do not export more than needed by default
     @EXPORT      = qw();
@@ -307,7 +307,7 @@ sub create_group_pad {
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
        $request .= '&groupID=' . $group_id . '&padName=' . $pad_name;
-       $request .= '&text=' . $text if (defined($text));
+       $request .= '&text=' . uri_escape($text) if (defined($text));
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -813,7 +813,7 @@ sub set_text {
     my $method = 'setText';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id) . '&text=' . $text;
+       $request .= '&padID=' . uri_escape($pad_id) . '&text=' . uri_escape($text);
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;

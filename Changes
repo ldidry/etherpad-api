@@ -1,7 +1,10 @@
 Revision history for Perl module Etherpad::API
 
+0.10 Sun Oct 20 01:21:32 2013
+    - Add some uri_escape() I forgot
+
 0.09 Sun Oct 20 00:45:03 2013
-    - use URI::Escape since there was problem with some characters
+    - Use URI::Escape since there was problem with some characters
 
 0.08 Tue Sep 10 01:20:20 2013
     - Use carp instead of die
