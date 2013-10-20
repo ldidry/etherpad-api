@@ -9,7 +9,7 @@ use Carp qw(carp);
 BEGIN {
     use Exporter ();
     use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-    $VERSION     = '0.10';
+    $VERSION     = '0.11';
     @ISA         = qw(Exporter);
     #Give a hoot don't pollute, do not export more than needed by default
     @EXPORT      = qw();
@@ -152,10 +152,11 @@ sub create_group {
             return $hash->{data}->{groupID};
         } else {
             carp $hash->{message};
+            return undef;
         }
-    }
-    else {
+    } else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -178,7 +179,10 @@ sub create_group_if_not_exists_for {
     my $self        = shift;
     my $my_group_id = shift;
 
-    carp 'Please provide a group id' unless (defined($my_group_id));
+    unless (defined($my_group_id)) {
+        carp 'Please provide a group id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'createGroupIfNotExistsFor';
@@ -192,10 +196,12 @@ sub create_group_if_not_exists_for {
             return $hash->{data}->{groupID};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -218,7 +224,10 @@ sub delete_group {
     my $self     = shift;
     my $group_id = shift;
 
-    carp 'Please provide a group id' unless (defined($group_id));
+    unless (defined($group_id)) {
+        carp 'Please provide a group id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'deleteGroup';
@@ -232,10 +241,12 @@ sub delete_group {
             return 1;
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -258,7 +269,10 @@ sub list_pads {
     my $self     = shift;
     my $group_id = shift;
 
-    carp 'Please provide a group id' unless (defined($group_id));
+    unless (defined($group_id)) {
+        carp 'Please provide a group id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'listPads';
@@ -272,10 +286,12 @@ sub list_pads {
             return (wantarray) ? @{$hash->{data}->{padIDs}}: $hash->{data}->{padIDs};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -300,7 +316,10 @@ sub create_group_pad {
     my $pad_name = shift;
     my $text     = shift;
 
-    carp 'Please provide at least 2 arguments : the group id and the pad name' unless (defined($pad_name));
+    unless (defined($pad_name)) {
+        carp 'Please provide at least 2 arguments : the group id and the pad name';
+        return undef
+    }
 
     my $api    = 1;
     my $method = 'createGroupPad';
@@ -315,10 +334,12 @@ sub create_group_pad {
             return 1;
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -350,10 +371,12 @@ sub list_all_groups {
             return (wantarray) ? @{$hash->{data}->{groupIDs}}: $hash->{data}->{groupIDs};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -396,10 +419,12 @@ sub create_author {
             return $hash->{data}->{authorID};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -423,7 +448,10 @@ sub create_author_if_not_exists_for {
     my $author_mapper = shift;
     my $name          = shift;
 
-    carp 'Please provide your application author id' unless (defined($author_mapper));
+    unless (defined($author_mapper)) {
+        carp 'Please provide your application author id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'createAuthorIfNotExistsFor';
@@ -438,10 +466,12 @@ sub create_author_if_not_exists_for {
             return $hash->{data}->{authorID};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -464,7 +494,10 @@ sub list_pads_of_author {
     my $self      = shift;
     my $author_id = shift;
 
-    carp 'Please provide an author id' unless (defined($author_id));
+    unless (defined($author_id)) {
+        carp 'Please provide an author id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'listPadsOfAuthor';
@@ -478,10 +511,12 @@ sub list_pads_of_author {
             return (wantarray) ? @{$hash->{data}->{padIDs}}: $hash->{data}->{padIDs};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -504,7 +539,10 @@ sub get_author_name {
     my $self      = shift;
     my $author_id = shift;
 
-    carp 'Please provide an author id' unless (defined($author_id));
+    unless (defined($author_id)) {
+        carp 'Please provide an author id';
+        return undef;
+    }
 
     my $api    = 1.1;
     my $method = 'getAuthorName';
@@ -520,9 +558,11 @@ sub get_author_name {
             return $data;
         } else {
             carp $hash->{message};
+            return undef;
         }
     } else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -555,8 +595,14 @@ sub create_session {
     my $author_id   = shift;
     my $valid_until = shift;
 
-    carp 'Please provide 3 arguments : the group id, the author id and a valid unix timestamp' unless (defined($valid_until));
-    carp 'Please provide a *valid* unix timestamp as third argument' unless ($valid_until =~ m/\d+/);
+    unless (defined($valid_until)) {
+        carp 'Please provide 3 arguments : the group id, the author id and a valid unix timestamp';
+        return undef;
+    }
+    unless ($valid_until =~ m/\d+/) {
+        carp 'Please provide a *valid* unix timestamp as third argument';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'createSession';
@@ -570,10 +616,12 @@ sub create_session {
             return $hash->{data}->{sessionID};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -596,7 +644,10 @@ sub delete_session {
     my $self       = shift;
     my $session_id = shift;
 
-    carp 'Please provide a session id' unless (defined($session_id));
+    unless (defined($session_id)) {
+        carp 'Please provide a session id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'deleteSession';
@@ -610,10 +661,12 @@ sub delete_session {
             return 1;
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -636,7 +689,10 @@ sub get_session_info {
     my $self       = shift;
     my $session_id = shift;
 
-    carp 'Please provide a session id' unless (defined($session_id));
+    unless (defined($session_id)) {
+        carp 'Please provide a session id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'getSessionInfo';
@@ -650,10 +706,12 @@ sub get_session_info {
             return $hash->{data};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -676,7 +734,10 @@ sub list_sessions_of_group {
     my $self     = shift;
     my $group_id = shift;
 
-    carp 'Please provide a group id' unless (defined($group_id));
+    unless (defined($group_id)) {
+        carp 'Please provide a group id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'listSessionsOfGroup';
@@ -690,10 +751,12 @@ sub list_sessions_of_group {
             return $hash->{data};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -716,7 +779,10 @@ sub list_sessions_of_author {
     my $self      = shift;
     my $author_id = shift;
 
-    carp 'Please provide an author id' unless (defined($author_id));
+    unless (defined($author_id)) {
+        carp 'Please provide an author id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'listSessionsOfAuthor';
@@ -730,10 +796,12 @@ sub list_sessions_of_author {
             return $hash->{data};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -765,7 +833,10 @@ sub get_text {
     my $pad_id = shift;
     my $rev    = shift;
 
-    carp 'Please provide at least a pad id' unless (defined($pad_id));
+    unless (defined($pad_id)) {
+        carp 'Please provide at least a pad id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'getText';
@@ -780,10 +851,12 @@ sub get_text {
             return $hash->{data}->{text};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -807,7 +880,10 @@ sub set_text {
     my $pad_id = shift;
     my $text   = shift;
 
-    carp 'Please provide 2 arguments : a pad id and a text' unless (defined($text));
+    unless (defined($text)) {
+        carp 'Please provide 2 arguments : a pad id and a text';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'setText';
@@ -821,10 +897,12 @@ sub set_text {
             return 1;
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -848,7 +926,10 @@ sub get_html {
     my $pad_id = shift;
     my $rev    = shift;
 
-    carp 'Please provide at least a pad id' unless (defined($pad_id));
+    unless (defined($pad_id)) {
+        carp 'Please provide at least a pad id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'getHTML';
@@ -863,10 +944,12 @@ sub get_html {
             return $hash->{data}->{html};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -905,7 +988,10 @@ sub get_chat_history {
     my $start  = shift;
     my $end    = shift;
 
-    carp 'Please provide at least a pad id' unless (defined($pad_id));
+    unless (defined($pad_id)) {
+        carp 'Please provide at least a pad id';
+        return undef;
+    }
 
     my $api    = '1.2.7';
     my $method = 'getChatHistory';
@@ -921,10 +1007,12 @@ sub get_chat_history {
             return (wantarray) ? @{$hash->{data}->{messages}}: $hash->{data}->{messages};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -947,7 +1035,10 @@ sub get_chat_head {
     my $self   = shift;
     my $pad_id = shift;
 
-    carp 'Please provide a pad id' unless (defined($pad_id));
+    unless (defined($pad_id)) {
+        carp 'Please provide a pad id';
+        return undef;
+    }
 
     my $api    = '1.2.7';
     my $method = 'getChatHead';
@@ -961,10 +1052,12 @@ sub get_chat_head {
             return $hash->{data}->{chatHead};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -996,7 +1089,10 @@ sub create_pad {
     my $pad_id = shift;
     my $text   = shift;
 
-    carp 'Please provide at least a pad id' unless (defined($pad_id));
+    unless (defined($pad_id)) {
+        carp 'Please provide at least a pad id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'createPad';
@@ -1011,10 +1107,12 @@ sub create_pad {
             return 1;
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -1037,7 +1135,10 @@ sub get_revisions_count {
     my $self   = shift;
     my $pad_id = shift;
 
-    carp 'Please provide a pad id' unless (defined($pad_id));
+    unless (defined($pad_id)) {
+        carp 'Please provide a pad id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'getRevisionsCount';
@@ -1051,10 +1152,12 @@ sub get_revisions_count {
             return $hash->{data}->{revisions};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -1077,7 +1180,10 @@ sub get_users_count {
     my $self   = shift;
     my $pad_id = shift;
 
-    carp 'Please provide a pad id' unless (defined($pad_id));
+    unless (defined($pad_id)) {
+        carp 'Please provide a pad id';
+        return undef;
+    }
 
     my $api = 1;
     my $method = 'padUsersCount';
@@ -1090,10 +1196,12 @@ sub get_users_count {
             return $hash->{data}->{padUsersCount};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -1116,7 +1224,10 @@ sub pad_users {
     my $self   = shift;
     my $pad_id = shift;
 
-    carp 'Please provide a pad id' unless (defined($pad_id));
+    unless (defined($pad_id)) {
+        carp 'Please provide a pad id';
+        return undef;
+    }
 
     my $api    = 1.1;
     my $method = 'padUsers';
@@ -1130,10 +1241,12 @@ sub pad_users {
             return (wantarray) ? @{$hash->{data}->{padUsers}} : $hash->{data}->{padUsers};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -1156,7 +1269,10 @@ sub delete_pad {
     my $self   = shift;
     my $pad_id = shift;
 
-    carp 'Please provide a pad id' unless (defined($pad_id));
+    unless (defined($pad_id)) {
+        carp 'Please provide a pad id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'deletePad';
@@ -1170,10 +1286,12 @@ sub delete_pad {
             return 1;
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -1196,7 +1314,10 @@ sub get_read_only_id {
     my $self   = shift;
     my $pad_id = shift;
 
-    carp 'Please provide a pad id' unless (defined($pad_id));
+    unless (defined($pad_id)) {
+        carp 'Please provide a pad id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'getReadOnlyID';
@@ -1210,10 +1331,12 @@ sub get_read_only_id {
             return $hash->{data}->{readOnlyID};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -1237,7 +1360,10 @@ sub set_public_status {
     my $pad_id        = shift;
     my $public_status = shift;
 
-    carp 'Please provide 2 arguments : a pad id and a public status (1 or 0)' unless (defined($public_status));
+    unless (defined($public_status)) {
+        carp 'Please provide 2 arguments : a pad id and a public status (1 or 0)';
+        return undef;
+    }
 
     $public_status = ($public_status) ? JSON::XS::true : JSON::XS::false;
 
@@ -1253,10 +1379,12 @@ sub set_public_status {
             return 1;
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -1279,7 +1407,10 @@ sub get_public_status {
     my $self   = shift;
     my $pad_id = shift;
 
-    carp 'Please provide a pad id' unless (defined($pad_id));
+    unless (defined($pad_id)) {
+        carp 'Please provide a pad id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'getPublicStatus';
@@ -1293,10 +1424,12 @@ sub get_public_status {
             return ($hash->{data}->{publicStatus}) ? 1 : 0;
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -1320,7 +1453,10 @@ sub set_password {
     my $pad_id   = shift;
     my $password = shift;
 
-    carp 'Please provide 2 arguments : a pad id and a password' unless (defined($password));
+    unless (defined($password)) {
+        carp 'Please provide 2 arguments : a pad id and a password';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'setPassword';
@@ -1334,10 +1470,12 @@ sub set_password {
             return 1;
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -1360,7 +1498,10 @@ sub is_password_protected {
     my $self   = shift;
     my $pad_id = shift;
 
-    carp 'Please provide a pad id' unless (defined($pad_id));
+    unless (defined($pad_id)) {
+        carp 'Please provide a pad id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'isPasswordProtected';
@@ -1374,10 +1515,12 @@ sub is_password_protected {
             return ($hash->{data}->{passwordProtection}) ? 1 : 0;
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -1400,7 +1543,10 @@ sub list_authors_of_pad {
     my $self   = shift;
     my $pad_id = shift;
 
-    carp 'Please provide a pad id' unless (defined($pad_id));
+    unless (defined($pad_id)) {
+        carp 'Please provide a pad id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'listAuthorsOfPad';
@@ -1414,10 +1560,12 @@ sub list_authors_of_pad {
             return (wantarray) ? @{$hash->{data}->{authorIDs}} : $hash->{data}->{authorIDs};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -1440,7 +1588,10 @@ sub list_names_of_authors_of_pad {
     my $self   = shift;
     my $pad_id = shift;
 
-    carp 'Please provide a pad id' unless (defined($pad_id));
+    unless (defined($pad_id)) {
+        carp 'Please provide a pad id';
+        return undef;
+    }
 
     my @names;
     my $anonymous = 0;
@@ -1479,7 +1630,10 @@ sub get_last_edited {
     my $self   = shift;
     my $pad_id = shift;
 
-    carp 'Please provide at least a pad id' unless (defined($pad_id));
+    unless (defined($pad_id)) {
+        carp 'Please provide at least a pad id';
+        return undef;
+    }
 
     my $api    = 1;
     my $method = 'getLastEdited';
@@ -1493,10 +1647,12 @@ sub get_last_edited {
             return $hash->{data}->{lastEdited};
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -1520,7 +1676,10 @@ sub send_clients_message {
     my $pad_id = shift;
     my $msg    = shift;
 
-    carp "Please provide 2 arguments : the pad id and a message" unless (defined($msg));
+    unless (defined($msg)) {
+        carp "Please provide 2 arguments : the pad id and a message";
+        return undef;
+    }
 
     my $api    = 1.1;
     my $method = 'sendAPIsMessage';
@@ -1534,10 +1693,12 @@ sub send_clients_message {
             return 1;
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -1573,6 +1734,7 @@ sub check_token {
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 
@@ -1611,10 +1773,12 @@ sub list_all_pads {
             return (wantarray) ? @{$data} : $data;
         } else {
             carp $hash->{message};
+            return undef;
         }
     }
     else {
         carp $response->status_line;
+        return undef;
     }
 }
 

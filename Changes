@@ -1,5 +1,8 @@
 Revision history for Perl module Etherpad::API
 
+0.11 Mon Oct 21 00:45:17 2013
+    - Return undef if failed
+
 0.10 Sun Oct 20 01:21:32 2013
     - Add some uri_escape() I forgot
 
