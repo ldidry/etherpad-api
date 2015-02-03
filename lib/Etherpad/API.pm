@@ -165,7 +165,7 @@ sub create_group {
 
 =head3 create_group_if_not_exists_for
 
- Usage     : $ec->create_group_if_not_exists_for('myGroupId');
+ Usage     : $ec->create_group_if_not_exists_for('groupMapper');
  Purpose   : This functions helps you to map your application group ids to epl group ids
  Returns   : The epl group id
  Argument  : Your application group id
@@ -177,9 +177,9 @@ sub create_group {
 
 sub create_group_if_not_exists_for {
     my $self        = shift;
-    my $my_group_id = shift;
+    my $group_mapper = shift;
 
-    unless (defined($my_group_id)) {
+    unless (defined($group_mapper)) {
         carp 'Please provide a group id';
         return undef;
     }
@@ -188,7 +188,7 @@ sub create_group_if_not_exists_for {
     my $method = 'createGroupIfNotExistsFor';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&myGroupId=' . $my_group_id;
+       $request .= '&groupMapper=' . $group_mapper;
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
