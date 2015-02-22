@@ -9,7 +9,7 @@ use Carp qw(carp);
 BEGIN {
     use Exporter ();
     use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-    $VERSION     = '0.11';
+    $VERSION     = '1.2.10.0';
     @ISA         = qw(Exporter);
     #Give a hoot don't pollute, do not export more than needed by default
     @EXPORT      = qw();
@@ -39,6 +39,10 @@ Etherpad::API - Access Etherpad Lite API easily
 =head1 DESCRIPTION
 
 This is a client for the Etherpad Lite HTTP API.
+
+The Etherpad API currently supported is the 1.2.10 (Etherpad version: 1.5.1)
+
+Please note that this module now uses the Etherpad API version number for versioning with a revision number (for bugfixes).
 
 =head1 USAGE
 
@@ -123,6 +127,8 @@ sub url {
 
 Pads can belong to a group. The padID of grouppads is starting with a groupID like g.asdfasdfasdfasdf$test
 
+See http://etherpad.org/doc/v1.5.1/#index_groups
+
 =cut
 #################################################################
 
@@ -133,6 +139,8 @@ Pads can belong to a group. The padID of grouppads is starting with a groupID li
  Usage     : $ec->create_group();
  Purpose   : Creates a new group
  Returns   : The new group ID
+ Argument  : None
+ See       : http://etherpad.org/doc/v1.5.1/#index_creategroup
 
 =cut
 
@@ -141,7 +149,7 @@ Pads can belong to a group. The padID of grouppads is starting with a groupID li
 sub create_group {
     my $self = shift;
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'createGroup';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -169,6 +177,7 @@ sub create_group {
  Purpose   : This functions helps you to map your application group ids to epl group ids
  Returns   : The epl group id
  Argument  : Your application group id
+ See       : http://etherpad.org/doc/v1.5.1/#index_creategroupifnotexistsfor_groupmapper
 
 =cut
 
@@ -184,7 +193,7 @@ sub create_group_if_not_exists_for {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'createGroupIfNotExistsFor';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -214,6 +223,7 @@ sub create_group_if_not_exists_for {
  Purpose   : Deletes a group
  Returns   : 1 if it succeeds
  Argument  : The id of the group you want to delete
+ See       : http://etherpad.org/doc/v1.5.1/#index_deletegroup_groupid
 
 =cut
 
@@ -229,7 +239,7 @@ sub delete_group {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'deleteGroup';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -259,6 +269,7 @@ sub delete_group {
  Purpose   : Returns all pads of this group
  Returns   : An array or an array reference (depending on the context) which contains the pad ids
  Argument  : The id of the group from which you want the pads
+ See       : http://etherpad.org/doc/v1.5.1/#index_listpads_groupid
 
 =cut
 
@@ -274,7 +285,7 @@ sub list_pads {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'listPads';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -304,6 +315,7 @@ sub list_pads {
  Purpose   : Creates a new pad in this group
  Returns   : 1 if it succeeds
  Argument  : The group id, the pad name, optionally takes the pad's initial text
+ See       : http://etherpad.org/doc/v1.5.1/#index_creategrouppad_groupid_padname_text
 
 =cut
 
@@ -321,7 +333,7 @@ sub create_group_pad {
         return undef
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'createGroupPad';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -351,6 +363,8 @@ sub create_group_pad {
  Usage     : $ec->list_all_groups()
  Purpose   : Lists all existing groups
  Returns   : An array or an array reference (depending on the context) which contains the groups ids
+ Argument  : None
+ See       : http://etherpad.org/doc/v1.5.1/#index_listallgroups
 
 =cut
 
@@ -360,7 +374,7 @@ sub create_group_pad {
 sub list_all_groups {
     my $self = shift;
 
-    my $api    = 1.1;
+    my $api    = '1.1';
     my $method = 'listAllGroups';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -386,6 +400,8 @@ sub list_all_groups {
 
 These authors are bound to the attributes the users choose (color and name).
 
+See http://etherpad.org/doc/v1.5.1/#index_author
+
 =cut
 #################################################################
 
@@ -397,6 +413,7 @@ These authors are bound to the attributes the users choose (color and name).
  Purpose   : Creates a new author
  Returns   : The new author ID
  Argument  : Optionally takes a string as argument : the new author's name
+ See       : http://etherpad.org/doc/v1.5.1/#index_createauthor_name
 
 =cut
 
@@ -407,7 +424,7 @@ sub create_author {
     my $self = shift;
     my $name = shift;
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'createAuthor';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -437,6 +454,7 @@ sub create_author {
  Purpose   : This functions helps you to map your application author ids to epl author ids
  Returns   : The epl author ID
  Argument  : Your application author ID (mandatory) and optionally the epl author name
+ See       : http://etherpad.org/doc/v1.5.1/#index_createauthorifnotexistsfor_authormapper_name
 
 =cut
 
@@ -453,7 +471,7 @@ sub create_author_if_not_exists_for {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'createAuthorIfNotExistsFor';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -484,6 +502,7 @@ sub create_author_if_not_exists_for {
  Purpose   : Returns an array of all pads this author contributed to
  Returns   : An array or an array reference depending on the context, containing the pads names
  Argument  : An epl author ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_listpadsofauthor_authorid
 
 =cut
 
@@ -499,7 +518,7 @@ sub list_pads_of_author {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'listPadsOfAuthor';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -529,6 +548,7 @@ sub list_pads_of_author {
  Purpose   : Returns the Author Name of the author
  Returns   : The author name
  Argument  : The epl author ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_getauthorname_authorid
 
 =cut
 
@@ -544,7 +564,7 @@ sub get_author_name {
         return undef;
     }
 
-    my $api    = 1.1;
+    my $api    = '1.1';
     my $method = 'getAuthorName';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -572,6 +592,8 @@ sub get_author_name {
 
 Sessions can be created between a group and an author. This allows an author to access more than one group. The sessionID will be set as a cookie to the client and is valid until a certain date. The session cookie can also contain multiple comma-seperated sessionIDs, allowing a user to edit pads in different groups at the same time. Only users with a valid session for this group, can access group pads. You can create a session after you authenticated the user at your web application, to give them access to the pads. You should save the sessionID of this session and delete it after the user logged out.
 
+See http://etherpad.org/doc/v1.5.1/#index_session
+
 =cut
 #################################################################
 
@@ -583,6 +605,7 @@ Sessions can be created between a group and an author. This allows an author to 
  Purpose   : Creates a new session. validUntil is an unix timestamp in seconds
  Returns   : The epl session ID
  Argument  : An epl group ID, an epl author ID and an valid unix timestamp (the session validity end date)
+ See       : http://etherpad.org/doc/v1.5.1/#index_createsession_groupid_authorid_validuntil
 
 =cut
 
@@ -604,7 +627,7 @@ sub create_session {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'createSession';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -634,6 +657,7 @@ sub create_session {
  Purpose   : Deletes a session
  Returns   : 1 if it succeeds
  Argument  : An epl session ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_deletesession_sessionid
 
 =cut
 
@@ -649,7 +673,7 @@ sub delete_session {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'deleteSession';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -677,8 +701,9 @@ sub delete_session {
 
  Usage     : $ec->get_session_info('sessionID')
  Purpose   : Returns informations about a session
- Returns   : An hash reference, containing 3 keys : authorID, groupID and validUntil
+ Returns   : A hash reference, containing 3 keys : authorID, groupID and validUntil
  Argument  : An epl session ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_getsessioninfo_sessionid
 
 =cut
 
@@ -694,7 +719,7 @@ sub get_session_info {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'getSessionInfo';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -724,6 +749,7 @@ sub get_session_info {
  Purpose   : Returns all sessions of a group
  Returns   : Returns a hash reference, which keys are sessions ID and values are sessions infos (see get_session_info)
  Argument  : An epl group ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_listsessionsofgroup_groupid
 
 =cut
 
@@ -739,7 +765,7 @@ sub list_sessions_of_group {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'listSessionsOfGroup';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -769,6 +795,7 @@ sub list_sessions_of_group {
  Purpose   : Returns all sessions of an author
  Returns   : Returns a hash reference, which keys are sessions ID and values are sessions infos (see get_session_info)
  Argument  : An epl group ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_listsessionsofauthor_authorid
 
 =cut
 
@@ -784,7 +811,7 @@ sub list_sessions_of_author {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'listSessionsOfAuthor';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -811,6 +838,8 @@ sub list_sessions_of_author {
 
 Pad content can be updated and retrieved through the API.
 
+See http://etherpad.org/doc/v1.5.1/#index_pad_content
+
 =cut
 #################################################################
 
@@ -822,6 +851,7 @@ Pad content can be updated and retrieved through the API.
  Purpose   : Returns the text of a pad
  Returns   : A string, containing the text of the pad
  Argument  : Takes a pad ID (mandatory) and optionally a revision number
+ See       : http://etherpad.org/doc/v1.5.1/#index_gettext_padid_rev
 
 =cut
 
@@ -838,7 +868,7 @@ sub get_text {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'getText';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -869,6 +899,7 @@ sub get_text {
  Purpose   : Sets the text of a pad
  Returns   : 1 if it succeeds
  Argument  : Takes a pad ID and the text you want to set (both mandatory)
+ See       : http://etherpad.org/doc/v1.5.1/#index_settext_padid_text
 
 =cut
 
@@ -885,7 +916,7 @@ sub set_text {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'setText';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -915,6 +946,7 @@ sub set_text {
  Purpose   : Returns the text of a pad formatted as html
  Returns   : A string, containing the text of the pad formatted as html
  Argument  : Takes a pad ID (mandatory) and optionally a revision number
+ See       : http://etherpad.org/doc/v1.5.1/#index_gethtml_padid_rev
 
 =cut
 
@@ -931,7 +963,7 @@ sub get_html {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'getHTML';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -954,8 +986,214 @@ sub get_html {
 }
 
 
+#################### subroutine header begin ####################
+
+=head3 set_html
+
+ Usage     : $ec->set_html('padID', 'html')
+ Purpose   : Sets the text of a pad based on HTML, HTML must be well formed.
+ Returns   : 1 if it succeeds
+ Argument  : Takes a pad ID and the HTML code you want to set (both mandatory)
+ See       : http://etherpad.org/doc/v1.5.1/#index_sethtml_padid_html
+
+=cut
+
+#################### subroutine header end ####################
+
+
+sub set_html {
+    my $self   = shift;
+    my $pad_id = shift;
+    my $html   = shift;
+
+    unless (defined($html)) {
+        carp 'Please provide 2 arguments : a pad id and a HTML code';
+        return undef;
+    }
+
+    my $api    = '1';
+    my $method = 'setHTML';
+
+    my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
+       $request .= '&padID=' . uri_escape($pad_id) . '&html=' . uri_escape($html);
+    my $response = $self->{ua}->get($request);
+    if ($response->is_success) {
+        my $hash = decode_json $response->decoded_content;
+        if ($hash->{code} == 0) {
+            return 1;
+        } else {
+            carp $hash->{message};
+            return undef;
+        }
+    }
+    else {
+        carp $response->status_line;
+        return undef;
+    }
+}
+
+
+#################### subroutine header begin ####################
+
+=head3 get_attribute_pool
+
+ Usage     : $ec->get_attribute_pool('padID')
+ Purpose   : Returns the attribute pool of a pad
+ Returns   : A hash reference, containing 3 keys
+             * numToAttrib, containing a hash reference, which keys are integers and contents are array references
+             * attribToNum, containing a hash reference, which keys are string and contents are integers
+             * nextNum, which content is an integer
+ Argument  : Takes a pad ID (mandatory)
+ See       : http://etherpad.org/doc/v1.5.1/#index_getattributepool_padid
+
+=cut
+
+#################### subroutine header end ####################
+
+
+sub get_attribute_pool {
+    my $self   = shift;
+    my $pad_id = shift;
+
+    unless (defined($pad_id)) {
+        carp 'Please provide a pad id';
+        return undef;
+    }
+
+    my $api    = '1.2.8';
+    my $method = 'getAttributePool';
+
+    my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
+       $request .= '&padID=' . uri_escape($pad_id);
+    my $response = $self->{ua}->get($request);
+    if ($response->is_success) {
+        my $hash = decode_json $response->decoded_content;
+        if ($hash->{code} == 0) {
+            return $hash->{data}->{pool};
+        } else {
+            carp $hash->{message};
+            return undef;
+        }
+    }
+    else {
+        carp $response->status_line;
+        return undef;
+    }
+}
+
+
+#################### subroutine header begin ####################
+
+=head3 get_revision_changeset
+
+ Usage     : $ec->get_revision_changeset
+ Purpose   : Get the changeset at a given revision, or last revision if 'rev' is not defined
+ Returns   : A string, representing an etherpad changeset
+ Argument  : Takes a pad ID (mandatory) and optionally a revision number
+ See       : http://etherpad.org/doc/v1.5.1/#index_getrevisionchangeset_padid_rev
+
+=cut
+
+#################### subroutine header end ####################
+
+
+sub get_revision_changeset {
+    my $self   = shift;
+    my $pad_id = shift;
+    my $rev    = shift;
+
+    unless (defined($pad_id)) {
+        carp 'Please provide at least a pad id';
+        return undef;
+    }
+
+    my $api    = '1.2.8';
+    my $method = 'getRevisionChangeset';
+
+    my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
+       $request .= '&padID=' . uri_escape($pad_id);
+       $request .= '&rev=' . $rev if (defined($rev));
+    my $response = $self->{ua}->get($request);
+    if ($response->is_success) {
+        my $hash = decode_json $response->decoded_content;
+        if ($hash->{code} == 0) {
+            return $hash->{data};
+        } else {
+            carp $hash->{message};
+            return undef;
+        }
+    }
+    else {
+        carp $response->status_line;
+        return undef;
+    }
+}
+
+
+#################### subroutine header begin ####################
+
+=head3 create_diff_html
+
+ Usage     : $ec->create_diff_html
+ Purpose   : Returns an object of diffs from 2 points in a pad
+ Returns   : A hash reference which keys are
+             * html, which content is a string representing the diff between the two revisions
+             * authors, which content is an array reference of authors
+ Argument  : Takes a pad ID, a revision number to start and a revision number to end. All arguments are mandatory
+ See       : http://etherpad.org/doc/v1.5.1/#index_creatediffhtml_padid_startrev_endrev
+
+=cut
+
+#################### subroutine header end ####################
+
+
+sub create_diff_html {
+    my $self      = shift;
+    my $pad_id    = shift;
+    my $start_rev = shift;
+    my $end_rev   = shift;
+
+    unless (defined($pad_id)) {
+        carp 'Please provide a pad id, a start_rev and an end_rev';
+        return undef;
+    }
+
+    unless (defined($start_rev)) {
+        carp 'Please provide a start_rev and an end_rev';
+        return undef;
+    }
+
+    unless (defined($end_rev)) {
+        carp 'Please provide an end_rev';
+        return undef;
+    }
+
+    my $api    = '1.2.7';
+    my $method = 'createDiffHTML';
+
+    my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
+       $request .= '&padID=' . uri_escape($pad_id) . '&startRev=' . $start_rev . '&endRev=' . $end_rev;
+    my $response = $self->{ua}->get($request);
+    if ($response->is_success) {
+        my $hash = decode_json $response->decoded_content;
+        if ($hash->{code} == 0) {
+            return $hash->{data};
+        } else {
+            carp $hash->{message};
+            return undef;
+        }
+    }
+    else {
+        carp $response->status_line;
+        return undef;
+    }
+}
+
+
 #################################################################
 =head2 Chat
+
+See http://etherpad.org/doc/v1.5.1/#index_chat
 
 =cut
 #################################################################
@@ -976,6 +1214,7 @@ sub get_html {
  Argument  : Takes a pad ID (mandatory) and optionally the start and the end numbers of the messages you want.
              The start number can't be higher than or equal to the current chatHead. The first chat message is number 0.
              If you specify a start but not an end, all messages will be returned.
+ See       : http://etherpad.org/doc/v1.5.1/#index_getchathistory_padid_start_end
 
 =cut
 
@@ -1025,6 +1264,7 @@ sub get_chat_history {
  Purpose   : Returns the chatHead (last number of the last chat-message) of the pad
  Returns   : The last chat-message number. -1 if there is no chat message
  Argument  : A pad ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_getchathead_padid
 
 =cut
 
@@ -1067,6 +1307,8 @@ sub get_chat_head {
 
 Group pads are normal pads, but with the name schema GROUPID$PADNAME. A security manager controls access of them and its forbidden for normal pads to include a $ in the name.
 
+See http://etherpad.org/doc/v1.5.1/#index_pad
+
 =cut
 #################################################################
 
@@ -1078,6 +1320,7 @@ Group pads are normal pads, but with the name schema GROUPID$PADNAME. A security
  Purpose   : Creates a new (non-group) pad. Note that if you need to create a group Pad, you should call create_group_pad.
  Returns   : 1 if it succeeds
  Argument  : Takes a pad ID (mandatory) and optionally a text to fill the pad
+ See       : http://etherpad.org/doc/v1.5.1/#index_createpad_padid_text
 
 =cut
 
@@ -1094,7 +1337,7 @@ sub create_pad {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'createPad';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -1125,6 +1368,7 @@ sub create_pad {
  Purpose   : Returns the number of revisions of this pad
  Returns   : The number of revisions
  Argument  : A pad ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_getrevisionscount_padid
 
 =cut
 
@@ -1140,7 +1384,7 @@ sub get_revisions_count {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'getRevisionsCount';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -1170,6 +1414,7 @@ sub get_revisions_count {
  Purpose   : Returns the number of user that are currently editing this pad
  Returns   : The number of users
  Argument  : A pad ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_paduserscount_padid
 
 =cut
 
@@ -1185,7 +1430,7 @@ sub get_users_count {
         return undef;
     }
 
-    my $api = 1;
+    my $api = '1';
     my $method = 'padUsersCount';
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
        $request .= '&padID=' . uri_escape($pad_id);
@@ -1214,6 +1459,7 @@ sub get_users_count {
  Purpose   : Returns the list of users that are currently editing this pad
  Returns   : An array or an array reference, depending of the context, containing hash references with 3 keys : colorId, name and timestamp
  Argument  : A pad ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_padusers_padid
 
 =cut
 
@@ -1229,7 +1475,7 @@ sub pad_users {
         return undef;
     }
 
-    my $api    = 1.1;
+    my $api    = '1.1';
     my $method = 'padUsers';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -1259,6 +1505,7 @@ sub pad_users {
  Purpose   : Deletes a pad
  Returns   : 1 if it succeeds
  Argument  : A pad ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_deletepad_padid
 
 =cut
 
@@ -1274,11 +1521,127 @@ sub delete_pad {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'deletePad';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
        $request .= '&padID=' . uri_escape($pad_id);
+    my $response = $self->{ua}->get($request);
+    if ($response->is_success) {
+        my $hash = decode_json $response->decoded_content;
+        if ($hash->{code} == 0) {
+            return 1;
+        } else {
+            carp $hash->{message};
+            return undef;
+        }
+    }
+    else {
+        carp $response->status_line;
+        return undef;
+    }
+}
+
+
+#################### subroutine header begin ####################
+
+=head3 copy_pad
+
+ Usage     : $ec->copy_pad('sourceID', 'destinationID' [, 1])
+ Purpose   : Copies a pad with full history and chat. If force is true and the destination pad exists, it will be overwritten
+ Returns   : 1 if it succeeds
+ Argument  : A source pad ID
+             A destination pad ID
+             A force flag : a value which is true or false, in perl interpretation (for example; 0 and '' are false, 1, 2 and 'foo' are true)
+ See       : http://etherpad.org/doc/v1.5.1/#index_copypad_sourceid_destinationid_force_false
+
+=cut
+
+#################### subroutine header end ####################
+
+
+sub copy_pad {
+    my $self           = shift;
+    my $source_id      = shift;
+    my $destination_id = shift;
+    my $force          = shift;
+
+    unless (defined($source_id)) {
+        carp 'Please provide a source pad id and a destination pad id';
+        return undef;
+    }
+
+    unless (defined($destination_id)) {
+        carp 'Please provide a destination pad id';
+        return undef;
+    }
+
+    $force = ($force) ? 'true' : 'false' if (defined($force));
+
+    my $api    = '1.2.8';
+    my $method = 'copyPad';
+
+    my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
+       $request .= '&sourceID=' . uri_escape($source_id) . '&destinationID=' . uri_escape($destination_id);
+       $request .= '&force=' . $force if (defined($force));
+    my $response = $self->{ua}->get($request);
+    if ($response->is_success) {
+        my $hash = decode_json $response->decoded_content;
+        if ($hash->{code} == 0) {
+            return 1;
+        } else {
+            carp $hash->{message};
+            return undef;
+        }
+    }
+    else {
+        carp $response->status_line;
+        return undef;
+    }
+}
+
+
+#################### subroutine header begin ####################
+
+=head3 move_pad
+
+ Usage     : $ec->move_pad('sourceID', 'destinationID' [, 1])
+ Purpose   : Moves a pad. If force is true and the destination pad exists, it will be overwritten
+ Returns   : 1 if it succeeds
+ Argument  : A source pad ID
+             A destination pad ID
+             A force flag : a value which is true or false, in perl interpretation (for example; 0 and '' are false, 1, 2 and 'foo' are true)
+ See       : http://etherpad.org/doc/v1.5.1/#index_movepad_sourceid_destinationid_force_false
+
+=cut
+
+#################### subroutine header end ####################
+
+
+sub move_pad {
+    my $self           = shift;
+    my $source_id      = shift;
+    my $destination_id = shift;
+    my $force          = shift;
+
+    unless (defined($source_id)) {
+        carp 'Please provide a source pad id and a destination pad id';
+        return undef;
+    }
+
+    unless (defined($destination_id)) {
+        carp 'Please provide a destination pad id';
+        return undef;
+    }
+
+    $force = ($force) ? 'true' : 'false' if (defined($force));
+
+    my $api    = '1.2.8';
+    my $method = 'movePad';
+
+    my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
+       $request .= '&sourceID=' . uri_escape($source_id) . '&destinationID=' . uri_escape($destination_id);
+       $request .= '&force=' . $force if (defined($force));
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -1304,6 +1667,7 @@ sub delete_pad {
  Purpose   : Returns the read only link of a pad
  Returns   : A string
  Argument  : A pad ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_getreadonlyid_padid
 
 =cut
 
@@ -1319,7 +1683,7 @@ sub get_read_only_id {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'getReadOnlyID';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -1343,12 +1707,59 @@ sub get_read_only_id {
 
 #################### subroutine header begin ####################
 
+=head3 get_pad_id
+
+ Usage     : $ec->get_pad_id('readOnlyID')
+ Purpose   : Returns the id of a pad which is assigned to the readOnlyID
+ Returns   : A string
+ Argument  : A read only ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_getpadid_readonlyid
+
+=cut
+
+#################### subroutine header end ####################
+
+
+sub get_pad_id {
+    my $self   = shift;
+    my $read_only_id = shift;
+
+    unless (defined($read_only_id)) {
+        carp 'Please provide a read only id';
+        return undef;
+    }
+
+    my $api    = '1.2.10';
+    my $method = 'getPadID';
+
+    my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
+       $request .= '&padID=' . uri_escape($read_only_id);
+    my $response = $self->{ua}->get($request);
+    if ($response->is_success) {
+        my $hash = decode_json $response->decoded_content;
+        if ($hash->{code} == 0) {
+            return $hash->{data}->{padID};
+        } else {
+            carp $hash->{message};
+            return undef;
+        }
+    }
+    else {
+        carp $response->status_line;
+        return undef;
+    }
+}
+
+
+#################### subroutine header begin ####################
+
 =head3 set_public_status
 
  Usage     : $ec->set_public_status('padID', 'publicStatus')
  Purpose   : Sets a boolean for the public status of a pad
  Returns   : 1 if it succeeds
  Argument  : A pad ID and the public status you want to set : 1 or 0
+ See       : http://etherpad.org/doc/v1.5.1/#index_setpublicstatus_padid_publicstatus
 
 =cut
 
@@ -1367,7 +1778,7 @@ sub set_public_status {
 
     $public_status = ($public_status) ? JSON::XS::true : JSON::XS::false;
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'setPublicStatus';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -1397,6 +1808,7 @@ sub set_public_status {
  Purpose   : Return true of false
  Returns   : 1 or 0
  Argument  : A pad ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_getpublicstatus_padid
 
 =cut
 
@@ -1412,7 +1824,7 @@ sub get_public_status {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'getPublicStatus';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -1442,6 +1854,7 @@ sub get_public_status {
  Purpose   : Returns ok or a error message
  Returns   : 1 if it succeeds
  Argument  : A pad ID and a password
+ See       : http://etherpad.org/doc/v1.5.1/#index_setpassword_padid_password
 
 =cut
 
@@ -1458,7 +1871,7 @@ sub set_password {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'setPassword';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -1488,6 +1901,7 @@ sub set_password {
  Purpose   : Returns true or false
  Returns   : 1 or 0
  Argument  : A pad ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_ispasswordprotected_padid
 
 =cut
 
@@ -1503,7 +1917,7 @@ sub is_password_protected {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'isPasswordProtected';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -1533,6 +1947,7 @@ sub is_password_protected {
  Purpose   : Returns an array of authors who contributed to this pad
  Returns   : An array or an array reference depending on the context, containing the epl authors IDs
  Argument  : A pad ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_listauthorsofpad_padid
 
 =cut
 
@@ -1548,7 +1963,7 @@ sub list_authors_of_pad {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'listAuthorsOfPad';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -1577,7 +1992,8 @@ sub list_authors_of_pad {
  Usage     : $ec->list_names_authors_of_pad('padID')
  Returns   : Returns an array of the names of the authors who contributed to this pad in list context
              Returns an array reference in scalar context
- Argument  : The pad name
+ Argument  : The pad ID
+ See       : This is not part of the Etherpad API but a facility offered by this module
 
 =cut
 
@@ -1620,6 +2036,7 @@ sub list_names_of_authors_of_pad {
  Purpose   : Returns the timestamp of the last revision of the pad
  Returns   : A unix timestamp
  Argument  : A pad ID
+ See       : http://etherpad.org/doc/v1.5.1/#index_getlastedited_padid
 
 =cut
 
@@ -1635,7 +2052,7 @@ sub get_last_edited {
         return undef;
     }
 
-    my $api    = 1;
+    my $api    = '1';
     my $method = 'getLastEdited';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -1665,6 +2082,7 @@ sub get_last_edited {
  Purpose   : Sends a custom message of type msg to the pad
  Returns   : 1 if it succeeds
  Argument  : A pad ID and the message you want to send
+ See       : http://etherpad.org/doc/v1.5.1/#index_sendclientsmessage_padid_msg
 
 =cut
 
@@ -1681,7 +2099,7 @@ sub send_clients_message {
         return undef;
     }
 
-    my $api    = 1.1;
+    my $api    = '1.1';
     my $method = 'sendAPIsMessage';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -1710,6 +2128,8 @@ sub send_clients_message {
  Usage     : $ec->check_token()
  Purpose   : Returns ok when the current api token is valid
  Returns   : 1 if the token is valid, 0 otherwise
+ Argument  : None
+ See       : http://etherpad.org/doc/v1.5.1/#index_checktoken
 
 =cut
 
@@ -1719,7 +2139,7 @@ sub send_clients_message {
 sub check_token {
     my $self = shift;
 
-    my $api    = 1.2;
+    my $api    = '1.2';
     my $method = 'checkToken';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
@@ -1741,6 +2161,9 @@ sub check_token {
 
 #################################################################
 =head2 Pads
+
+See http://etherpad.org/doc/v1.5.1/#index_pads
+
 =cut
 #################################################################
 
@@ -1751,6 +2174,7 @@ sub check_token {
  Usage     : $ec->list_all_pads()
  Purpose   : Lists all pads on this epl instance
  Returns   : An array or an array reference depending on the context, containing the pads names
+ See       : http://etherpad.org/doc/v1.5.1/#index_listallpads
 
 =cut
 
@@ -1821,7 +2245,7 @@ You can also look for information at:
     Luc DIDRY
     CPAN ID: LDIDRY
     ldidry@cpan.org
-    http://www.fiat-tux.fr/
+    https://fiat-tux.fr/
 
 =head1 COPYRIGHT
 
