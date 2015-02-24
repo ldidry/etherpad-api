@@ -9,7 +9,7 @@ use Carp qw(carp);
 BEGIN {
     use Exporter ();
     use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-    $VERSION     = '1.2.10.0';
+    $VERSION     = '1.2.10.1';
     @ISA         = qw(Exporter);
     #Give a hoot don't pollute, do not export more than needed by default
     @EXPORT      = qw();
@@ -64,7 +64,9 @@ Please note that this module now uses the Etherpad API version number for versio
                 url      : mandatory, the epl URL (trailing slashes will be removed)
                 apikey   : mandatory, the epl API key
                 user     : optional, the user for epl authentication
-                password : optional, the passowrd for epl authentication
+                password : optional, the password for epl authentication
+                proxy    : optional, hash reference which can contain two keys: http and https.
+                           These are the settings if you are behind a http(s) proxy
 
 =cut
 
@@ -80,6 +82,11 @@ sub new {
     }
 
     $parameters->{ua} = LWP::UserAgent->new;
+
+    if (defined($parameters->{proxy})) {
+        $parameters->{ua}->proxy('http', $parameters->{proxy}->{http}) if (defined($parameters->{proxy}->{http}));
+        $parameters->{ua}->proxy('https', $parameters->{proxy}->{https}) if (defined($parameters->{proxy}->{https}));
+    }
 
     my $self = bless ($parameters, ref ($class) || $class);
     return $self;
@@ -2208,6 +2215,15 @@ sub list_all_pads {
 
 
 #################### footer pod documentation begin ###################
+=head1 INSTALL
+
+    perl Makefile.PL
+    make
+    make test
+    make install
+
+If you are on a windows box you should use 'nmake' rather than 'make'.
+
 =head1 BUGS and SUPPORT
 
 You can find documentation for this module with the perldoc command.

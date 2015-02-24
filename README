@@ -18,8 +18,8 @@ DESCRIPTION
     The Etherpad API currently supported is the 1.2.10 (Etherpad version:
     1.5.1)
 
-    Please note that this module now uses the Etherpad version number for
-    versioning with a revision number (for bugfixes).
+    Please note that this module now uses the Etherpad API version number
+    for versioning with a revision number (for bugfixes).
 
 USAGE
   new
@@ -30,7 +30,9 @@ USAGE
                     url      : mandatory, the epl URL (trailing slashes will be removed)
                     apikey   : mandatory, the epl API key
                     user     : optional, the user for epl authentication
-                    password : optional, the passowrd for epl authentication
+                    password : optional, the password for epl authentication
+                    proxy    : optional, hash reference which can contain two keys: http and https.
+                               These are the settings if you are behind a http(s) proxy
 
   apikey
      Usage     : $ec->apikey();
@@ -403,13 +405,12 @@ USAGE
      See       : http://etherpad.org/doc/v1.5.1/#index_listallpads
 
 INSTALL
+        perl Makefile.PL
+        make
+        make test
+        make install
 
-  perl Makefile.PL
-  make
-  make test
-  make install
-
-If you are on a windows box you should use 'nmake' rather than 'make'.
+    If you are on a windows box you should use 'nmake' rather than 'make'.
 
 BUGS and SUPPORT
     You can find documentation for this module with the perldoc command.
