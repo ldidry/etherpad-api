@@ -9,7 +9,7 @@ use Carp qw(carp);
 BEGIN {
     use Exporter ();
     use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-    $VERSION     = '1.2.10.1';
+    $VERSION     = '1.2.10.2';
     @ISA         = qw(Exporter);
     #Give a hoot don't pollute, do not export more than needed by default
     @EXPORT      = qw();
@@ -879,7 +879,7 @@ sub get_text {
     my $method = 'getText';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id);
+       $request .= '&padID=' . $pad_id;
        $request .= '&rev=' . $rev if (defined($rev));
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
@@ -927,7 +927,7 @@ sub set_text {
     my $method = 'setText';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id) . '&text=' . uri_escape($text);
+       $request .= '&padID=' . $pad_id . '&text=' . uri_escape($text);
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -974,7 +974,7 @@ sub get_html {
     my $method = 'getHTML';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id);
+       $request .= '&padID=' . $pad_id;
        $request .= '&rev=' . $rev if (defined($rev));
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
@@ -1022,7 +1022,7 @@ sub set_html {
     my $method = 'setHTML';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id) . '&html=' . uri_escape($html);
+       $request .= '&padID=' . $pad_id . '&html=' . uri_escape($html);
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -1071,7 +1071,7 @@ sub get_attribute_pool {
     my $method = 'getAttributePool';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id);
+       $request .= '&padID=' . $pad_id;
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -1118,7 +1118,7 @@ sub get_revision_changeset {
     my $method = 'getRevisionChangeset';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id);
+       $request .= '&padID=' . $pad_id;
        $request .= '&rev=' . $rev if (defined($rev));
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
@@ -1179,7 +1179,7 @@ sub create_diff_html {
     my $method = 'createDiffHTML';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id) . '&startRev=' . $start_rev . '&endRev=' . $end_rev;
+       $request .= '&padID=' . $pad_id . '&startRev=' . $start_rev . '&endRev=' . $end_rev;
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -1348,8 +1348,8 @@ sub create_pad {
     my $method = 'createPad';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id);
-       $request .= '&text=' . uri_escape($text) if (defined($text));
+       $request .= '&padID=' . $pad_id;
+       $request .= '&text=' . $text if (defined($text));
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -1395,7 +1395,7 @@ sub get_revisions_count {
     my $method = 'getRevisionsCount';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id);
+       $request .= '&padID=' . $pad_id;
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -1440,7 +1440,7 @@ sub get_users_count {
     my $api = '1';
     my $method = 'padUsersCount';
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id);
+       $request .= '&padID=' . $pad_id;
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -1486,7 +1486,7 @@ sub pad_users {
     my $method = 'padUsers';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id);
+       $request .= '&padID=' . $pad_id;
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -1532,7 +1532,7 @@ sub delete_pad {
     my $method = 'deletePad';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id);
+       $request .= '&padID=' . $pad_id;
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -1589,7 +1589,7 @@ sub copy_pad {
     my $method = 'copyPad';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&sourceID=' . uri_escape($source_id) . '&destinationID=' . uri_escape($destination_id);
+       $request .= '&sourceID=' . $source_id . '&destinationID=' . $destination_id;
        $request .= '&force=' . $force if (defined($force));
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
@@ -1647,7 +1647,7 @@ sub move_pad {
     my $method = 'movePad';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&sourceID=' . uri_escape($source_id) . '&destinationID=' . uri_escape($destination_id);
+       $request .= '&sourceID=' . $source_id . '&destinationID=' . $destination_id;
        $request .= '&force=' . $force if (defined($force));
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
@@ -1694,7 +1694,7 @@ sub get_read_only_id {
     my $method = 'getReadOnlyID';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id);
+       $request .= '&padID=' . $pad_id;
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -1740,7 +1740,7 @@ sub get_pad_id {
     my $method = 'getPadID';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($read_only_id);
+       $request .= '&padID=' . $read_only_id;
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -1789,7 +1789,7 @@ sub set_public_status {
     my $method = 'setPublicStatus';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id) . '&publicStatus=' . $public_status;
+       $request .= '&padID=' . $pad_id . '&publicStatus=' . $public_status;
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -1835,7 +1835,7 @@ sub get_public_status {
     my $method = 'getPublicStatus';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id);
+       $request .= '&padID=' . $pad_id;
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -1882,7 +1882,7 @@ sub set_password {
     my $method = 'setPassword';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id) . '&password=' . uri_escape($password);
+       $request .= '&padID=' . $pad_id . '&password=' . uri_escape($password);
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -1928,7 +1928,7 @@ sub is_password_protected {
     my $method = 'isPasswordProtected';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id);
+       $request .= '&padID=' . $pad_id;
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -1974,7 +1974,7 @@ sub list_authors_of_pad {
     my $method = 'listAuthorsOfPad';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id);
+       $request .= '&padID=' . $pad_id;
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -2063,7 +2063,7 @@ sub get_last_edited {
     my $method = 'getLastEdited';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-       $request .= '&padID=' . uri_escape($pad_id);
+       $request .= '&padID=' . $pad_id;
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;
@@ -2110,7 +2110,7 @@ sub send_clients_message {
     my $method = 'sendAPIsMessage';
 
     my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
-    $request .= '&padID=' . uri_escape($pad_id) . 'msg=' . $msg;
+    $request .= '&padID=' . $pad_id . 'msg=' . $msg;
     my $response = $self->{ua}->get($request);
     if ($response->is_success) {
         my $hash = decode_json $response->decoded_content;

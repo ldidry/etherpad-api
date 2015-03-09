@@ -1,9 +1,12 @@
 Revision history for Perl module Etherpad::API
 
-1.2.10.1 Tue Fed 24 11:14:17 2015
+1.2.10.2 Mon Mar 09 23:17:42 2015
+    - Remove uri_escape for padIDs
+
+1.2.10.1 Tue Feb 24 11:14:17 2015
     - Add option for specifying http and https proxy
 
-1.2.10.0 Sun Fed 22 22:39:17 2015
+1.2.10.0 Sun Feb 22 22:39:17 2015
     - Change version numbering method
     - Update to API version 1.2.10 (1.5.1 version of Etherpad)
     - Fix #101909 (https://rt.cpan.org/Public/Bug/Display.html?id=101909)
