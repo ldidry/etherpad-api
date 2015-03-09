@@ -11,7 +11,7 @@ WriteMakefile(
     PREREQ_PM    => {
                      'Test::Simple' => 0.44,
                      'LWP::UserAgent' => 0,
-                     'URI::Escape' => 0,
+                     'URI::Encode' => 0,
                      'JSON::XS' => 0,
                     },
     META_MERGE => {

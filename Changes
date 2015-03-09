@@ -1,5 +1,12 @@
 Revision history for Perl module Etherpad::API
 
+1.2.10.3 Tue Mar 10 00:16:38 2015
+    - Change URI::Escape fo URL::Encode and uri_encode padIDs
+    - uri_encode some parameters which needed it
+
+1.2.10.2 Mon Mar 09 23:17:42 2015
+    - Remove uri_escape for padIDs
+
 1.2.10.1 Tue Fed 24 11:14:17 2015
     - Add option for specifying http and https proxy
 
