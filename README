@@ -15,8 +15,8 @@ SYNOPSIS
 DESCRIPTION
     This is a client for the Etherpad Lite HTTP API.
 
-    The Etherpad API currently supported is the 1.2.10 (Etherpad version:
-    1.5.1)
+    The Etherpad API currently supported is the 1.2.12 (Etherpad version:
+    1.5.6)
 
     Please note that this module now uses the Etherpad API version number
     for versioning with a revision number (for bugfixes).
@@ -278,6 +278,27 @@ USAGE
      Returns   : The number of revisions
      Argument  : A pad ID
      See       : http://etherpad.org/doc/v1.5.1/#index_getrevisionscount_padid
+
+   get_saved_revisions_count
+     Usage     : $ec->get_saved_revisions_count('padID')
+     Purpose   : Returns the number of saved revisions of this pad
+     Returns   : The number of saved revisions
+     Argument  : A pad ID
+     See       : http://etherpad.org/doc/v1.5.6/#index_getsavedrevisionscount_padid
+
+   list_saved_revisions
+     Usage     : $ec->list_saved_revisions('padID')
+     Purpose   : Returns the list of saved revisions of this pad
+     Returns   : An array or an array reference, depending of the context, containing the saved revisions numbers
+     Argument  : A pad ID
+     See       : http://etherpad.org/doc/v1.5.6/#index_listsavedrevisions_padid
+
+   save_revision
+     Usage     : $ec->save_revision('padID')
+     Purpose   : Saves a revision
+     Returns   : 1 if it succeeds
+     Argument  : Takes a pad ID (mandatory) and optionally a revision number
+     See       : http://etherpad.org/doc/v1.5.6/#index_saverevision_padid_rev
 
    get_users_count
      Usage     : $ec->get_users_count('padID')

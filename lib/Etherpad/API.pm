@@ -9,7 +9,7 @@ use Carp qw(carp);
 BEGIN {
     use Exporter ();
     use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-    $VERSION     = '1.2.10.3';
+    $VERSION     = '1.2.12.0';
     @ISA         = qw(Exporter);
     #Give a hoot don't pollute, do not export more than needed by default
     @EXPORT      = qw();
@@ -40,7 +40,7 @@ Etherpad::API - Access Etherpad Lite API easily
 
 This is a client for the Etherpad Lite HTTP API.
 
-The Etherpad API currently supported is the 1.2.10 (Etherpad version: 1.5.1)
+The Etherpad API currently supported is the 1.2.12 (Etherpad version: 1.5.6)
 
 Please note that this module now uses the Etherpad API version number for versioning with a revision number (for bugfixes).
 
@@ -1401,6 +1401,146 @@ sub get_revisions_count {
         my $hash = decode_json $response->decoded_content;
         if ($hash->{code} == 0) {
             return $hash->{data}->{revisions};
+        } else {
+            carp $hash->{message};
+            return undef;
+        }
+    }
+    else {
+        carp $response->status_line;
+        return undef;
+    }
+}
+
+
+#################### subroutine header begin ####################
+
+=head3 get_saved_revisions_count
+
+ Usage     : $ec->get_saved_revisions_count('padID')
+ Purpose   : Returns the number of saved revisions of this pad
+ Returns   : The number of saved revisions
+ Argument  : A pad ID
+ See       : http://etherpad.org/doc/v1.5.6/#index_getsavedrevisionscount_padid
+
+=cut
+
+#################### subroutine header end ####################
+
+
+sub get_saved_revisions_count {
+    my $self   = shift;
+    my $pad_id = shift;
+
+    unless (defined($pad_id)) {
+        carp 'Please provide a pad id';
+        return undef;
+    }
+
+    my $api    = '1.2.11';
+    my $method = 'getSavedRevisionsCount';
+
+    my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
+       $request .= '&padID=' . uri_encode($pad_id, {encode_reserved => 1});
+    my $response = $self->{ua}->get($request);
+    if ($response->is_success) {
+        my $hash = decode_json $response->decoded_content;
+        if ($hash->{code} == 0) {
+            return $hash->{data}->{savedRevisions};
+        } else {
+            carp $hash->{message};
+            return undef;
+        }
+    }
+    else {
+        carp $response->status_line;
+        return undef;
+    }
+}
+
+
+#################### subroutine header begin ####################
+
+=head3 list_saved_revisions
+
+ Usage     : $ec->list_saved_revisions('padID')
+ Purpose   : Returns the list of saved revisions of this pad
+ Returns   : An array or an array reference, depending of the context, containing the saved revisions numbers
+ Argument  : A pad ID
+ See       : http://etherpad.org/doc/v1.5.6/#index_listsavedrevisions_padid
+
+=cut
+
+#################### subroutine header end ####################
+
+
+sub list_saved_revisions {
+    my $self   = shift;
+    my $pad_id = shift;
+
+    unless (defined($pad_id)) {
+        carp 'Please provide a pad id';
+        return undef;
+    }
+
+    my $api    = '1.2.11';
+    my $method = 'listSavedRevisions';
+
+    my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
+       $request .= '&padID=' . uri_encode($pad_id, {encode_reserved => 1});
+    my $response = $self->{ua}->get($request);
+    if ($response->is_success) {
+        my $hash = decode_json $response->decoded_content;
+        if ($hash->{code} == 0) {
+            return (wantarray) ? @{$hash->{data}->{savedRevisions}} : $hash->{data}->{savedRevisions};
+        } else {
+            carp $hash->{message};
+            return undef;
+        }
+    }
+    else {
+        carp $response->status_line;
+        return undef;
+    }
+}
+
+
+#################### subroutine header begin ####################
+
+=head3 save_revision
+
+ Usage     : $ec->save_revision('padID')
+ Purpose   : Saves a revision
+ Returns   : 1 if it succeeds
+ Argument  : Takes a pad ID (mandatory) and optionally a revision number
+ See       : http://etherpad.org/doc/v1.5.6/#index_saverevision_padid_rev
+
+=cut
+
+#################### subroutine header end ####################
+
+
+sub get_revisions_count {
+    my $self   = shift;
+    my $pad_id = shift;
+    my $rev    = shift;
+
+    unless (defined($pad_id)) {
+        carp 'Please provide a pad id';
+        return undef;
+    }
+
+    my $api    = '1.2.11';
+    my $method = 'saveRevision';
+
+    my $request  = $self->{url} . '/api/' . $api . '/' . $method . '?apikey=' . $self->{apikey};
+       $request .= '&padID=' . uri_encode($pad_id, {encode_reserved => 1});
+       $request .= '&rev=' . $rev if (defined($rev));
+    my $response = $self->{ua}->get($request);
+    if ($response->is_success) {
+        my $hash = decode_json $response->decoded_content;
+        if ($hash->{code} == 0) {
+            return 1;
         } else {
             carp $hash->{message};
             return undef;
