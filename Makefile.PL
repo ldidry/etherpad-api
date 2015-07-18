@@ -9,10 +9,8 @@ WriteMakefile(
     AUTHOR       => 'Luc DIDRY (ldidry@cpan.org)',
     ABSTRACT     => 'Access Etherpad Lite API easily',
     PREREQ_PM    => {
+                     'Etherpad' => '0',
                      'Test::Simple' => 0.44,
-                     'LWP::UserAgent' => 0,
-                     'URI::Encode' => 0,
-                     'JSON::XS' => 0,
                     },
     META_MERGE => {
         "meta-spec" => { version => 2 },
